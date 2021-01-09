@@ -2,7 +2,7 @@ const path = require('path');
 const fs = require('fs');
 const Database = require("./Database.js");
 const express = require('express');
-var cors = require('cors')
+var cors = require('cors');
 
 const DATABASE_NAME = 'testdb';
 const DATABASE_ADMIN_USERNAME = 'admin';
@@ -66,7 +66,7 @@ app.route('/api/users')
 			res.json(allUsers);
 		})
 	})
-	.post(function (req, res, next) {
+	.post(function (req, res) {
 		var jsonBody = req.body;
 		if(isSchemaValid(userSchemaFields, jsonBody)) {
 			db.createNewUser(jsonBody).then(function(newUser) {
@@ -78,7 +78,61 @@ app.route('/api/users')
 			res.status(400).send("Cannot add user: user schema mismatch.");
 		}
 	});
+	
+app.get('/api/usersbyproximity', function (req, res) {
+//	req.query.lat
+//	req.query.long
+	db.getUsers().then(function(allUsers) {
+		for(var i = 0; i < allUsers.length; i++) {
+			delete allUsers[i].password;
+			delete allUsers[i].email;
+			delete allUsers[i].contactNumber;
+			delete allUsers[i].role;
+			delete allUsers[i].isVerified;
+			delete allUsers[i].flagged;
+			delete allUsers[i].location;
+			delete allUsers[i].partnerId;
+			delete allUsers[i].invitations;
+			// need a function to calculate the distance put in in km unit rounded to nearest
+			allUsers[i].distance = distanceSort(allUsers)
+		}
 
+		// sort allUsers based on distance 
+		function distanceSort(userlist) {
+
+		}
+	
+		res.json(allUsers);
+	})
+	
+});
+
+// requester's (elder) ID is in the POST data
+// id is youth id for adding requester into their invitations arr
+app.post('/api/sendinvite/:id', function (req, res){
+
+	// Check to see if arr does not already contain requester ID
+
+	// Add requester ID into youth ID's invitation arr
+
+	// Return either 400 error bad request (couldn't be complete) or 200 status OK (went through)
+});
+
+// Get invitation arr from id
+app.get('/api/users/invites/:id', function (req, res){
+
+	// Get invitation arr from id
+
+	// Parse back-end invite array in user object -> user obj
+
+	// Return array of user objects that were listed inside the inv arr
+
+});
+
+app.get('/api/userverified/id', function (req, res){
+
+	// Return isVerified within user obj list
+});
 
 app.get('/api/users/id/:id', function (req, res) {
 	db.getUserById(req.params.id).then(function(user) {
@@ -105,6 +159,3 @@ app.post('/api/authenticate', function (req,res) {
 		}
 	})
 });
-
-
-
