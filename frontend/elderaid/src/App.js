@@ -1,6 +1,6 @@
-import logo from './logo.svg';
 import './App.css';
-//import "bootstrap/dist/css/bootstrap.min.css"
+import Signup from "./components/signup";
+import "bootstrap/dist/css/bootstrap.min.css";
 
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 import { Home } from "./index";
@@ -11,6 +11,7 @@ function App() {
       <Router>
         <Switch>
           <Route path="/" exact component={() => <Home />} />
+          <Route path="/signup" exact component={() => <Signup />} />
         </Switch>
       </Router>
     </div>
