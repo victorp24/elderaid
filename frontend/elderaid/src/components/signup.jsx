@@ -32,13 +32,13 @@ function Signup() {
       <Container>
         <Row>
           <Col>
-            <Form.Group controlId="formBasicEmail">
+            <Form.Group controlId="formBasicfirstName">
               <Form.Label>First Name</Form.Label>
               <Form.Control type="text" placeholder="First Name" name="firstName" value={values.firstName} />
             </Form.Group>
           </Col>
           <Col>
-            <Form.Group controlId="formBasicEmail">
+            <Form.Group controlId="formBasiclastName">
               <Form.Label>Last Name</Form.Label>
               <Form.Control type="text" placeholder="Last Name" name="lastName" value={values.lastName} />
             </Form.Group>
@@ -60,12 +60,12 @@ function Signup() {
           </Form.Text>
         </Form.Group>
 
-        <Form.Group controlId="formBasicPassword">
+        <Form.Group controlId="formBasicPassword2">
           <Form.Label> Confirm Password</Form.Label>
           <Form.Control type="password" placeholder="Re-Enter Password" name="password2" values={values.password2}/>
         </Form.Group>
 
-        <Form.Group controlId="formBasicEmail">
+        <Form.Group controlId="formBasiccontactNumber">
           <Form.Label>Phone Number</Form.Label>
           <Form.Control type="text" placeholder="Phone Number" name="contactNumber" values={values.contactNumber} />
         </Form.Group>

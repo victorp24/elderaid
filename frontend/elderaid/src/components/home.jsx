@@ -13,7 +13,7 @@ function Home() {
             />
           </div>
           <div class="col-lg-5">
-            <h1 class="font-weight-light">Please Help</h1>
+            <h1 class="font-weight-light">Please Help Me Please</h1>
             <p>
                 The elderly people are more susceptible to the COVID-19 virus and represent the majority of deaths that have occured due to the virus. Furthermore, ventilators and ICU beds in the hospital are considered scarce medical resources and may need to be rationed. Therefore, with the surge in COVID-19 cases, it is likely that the elderly will be excluded from gaining access to these scarce medical resources because they are less likely to survive even if they are given these scarce medical resources.
             </p>
