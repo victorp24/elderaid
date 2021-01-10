@@ -44,7 +44,7 @@ Returns user object if a user exists and empty json otherwise
       "password": "password123",
       "contactNumber": "323-423-9222",
       "role": "ELDER",
-    "isVerified": false,
+      "isVerified": false,
       "flagged": false,
       "imageUrl": "",
       "location": [27.2970523, -121.9574942],
@@ -408,7 +408,7 @@ Returns user object given an unique email and password.
 **userSchemaFields** 
 ----
 Standard user schema that contains all relevant fields of interest.
-```json
+```javascript
 {
  	"firstName", 
 	"lastName", 
@@ -431,7 +431,7 @@ Standard user schema that contains all relevant fields of interest.
 **userSchemaSignUpFields**
 ----
 User schema for sign-up fields. Used for creating the initial user object.
-```json
+```javascript
 {
 	"firstName", 
 	"lastName", 
