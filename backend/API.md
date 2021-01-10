@@ -211,3 +211,197 @@ Returns a list of user objects that have sent invites to the user ID specified.
     ```json
     Invalid data in invitations array! Could not find user with the specified ID!
     ```
+
+
+
+**Accept invite**
+----
+TODO!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+Returns a success or failure.
+
+* **URL**
+
+  /api/users/invites/<id>
+
+* **Method**
+
+  `POST`
+
+* **URL Params**
+
+  **Required:**
+
+  `id=[userid]`: ID with invitations received
+
+* **Data Params**
+
+  `id=[userid]`: ID of requester
+
+* **Response**
+
+    **Content:**
+    
+    User object list of those who sent an invite to the user ID requested. Eg.
+    ```json
+    {
+       "_id": "5ffa4cf99a2bbc38e469df6a",
+       "firstName": "god",
+       "lastName": "god",
+       "imageUrl": "",
+       "age": "420",
+       "gender": "Other",
+       "bio": "im god"
+    }
+    ```
+    
+    If requested invite list is empty:
+    **Code:** 200 <br />
+    ```json
+    Invitation list is empty.
+    ```
+    
+    If ID could not be found or invalid user:
+    **Code:** 404 <br />
+    ```json
+    Invalid data in invitations array! Could not find user with the specified ID!
+    ```
+
+**Find User by ID**
+----
+Returns the user with the unique ID specified.
+
+* **URL**
+
+  /api/users/id/<id>
+
+* **Method**
+
+  `GET`
+
+* **URL Params**
+
+  **Required:**
+
+  `id=[userid]`: unique ID of user
+
+* **Data Params**
+
+  None
+
+* **Response**
+
+    **Content:**
+    
+    User object of the ID requested. Eg.
+    ```json
+    {
+       "_id": "5ffa4cf99a2bbc38e469df6a",
+       "firstName": "God",
+       "lastName": "",
+       "imageUrl": "",
+       "age": "999",
+       "gender": "Other",
+       "bio": "Greetings. I am God."
+    }
+    ```
+  
+    If ID could not be found or invalid user:
+    **Code:** 404 <br />
+    ```json
+    No User with the specified ID was found.
+    ```
+
+**Is User Verified**
+----
+Returns if user with the unique ID specified is verified or not.
+
+* **URL**
+
+  /api/userverified<id>
+
+* **Method**
+
+  `GET`
+
+* **URL Params**
+
+  **Required:**
+
+  `id=[userid]`: ID of user
+
+* **Data Params**
+
+  None
+
+* **Response**
+
+    **Content:**
+    
+    User object of the ID requested. Eg.
+    ```json
+    {
+       "_id": "5ffa4cf99a2bbc38e469df6a",
+       "firstName": "Jesus",
+       "lastName": "O'Nazareth",
+       "imageUrl": "",
+       "age": "1988",
+       "gender": "Male",
+       "bio": "I can walk on water."
+    }
+    ```
+  
+    If ID could not be found or invalid user:
+    **Code:** 404 <br />
+    ```json
+    No User with the specified ID was found.
+    ```
+
+**Authenticate User**
+----
+Returns user object given an unique email and password.
+
+* **URL**
+
+  /api/authenticate
+
+* **Method**
+
+  `POST`
+
+* **URL Params**
+
+  **Required:**
+
+  None
+
+* **Data Params**
+
+  `email`: User email address
+  `password`: User password
+
+* **Response**
+
+    **Content:**
+    
+    User object of the ID requested. Eg.
+    ```json
+    {
+       "_id": "5ffa4cf99a2bbc38e469df6a",
+       "firstName": "Donald",
+       "lastName": "Trump",
+       "imageUrl": "https://bit.ly/2K0SLc9",
+       "age": "74",
+       "gender": "Male",
+       "bio": "I am the Donald."
+    }
+    ```
+  
+    If ID could not be found or invalid user:
+    **Code:** 404 <br />
+    ```json
+    No User with the specified ID was found.
+    ```
+
+    
+    
+
