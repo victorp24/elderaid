@@ -1,8 +1,8 @@
 <p align="center">
-  <img width=564 height=184 src="frontend/elderaid/src/components/images/logo1.png" />
+  <img width=322 height=105 src="frontend/elderaid/src/components/images/logo1.png" />
 </p>
 
-# ElderAid
+----
 
 
 > ElderAid is a web-based application for bringing together the elderly and the young in these unprecedented times of COVID-19.
