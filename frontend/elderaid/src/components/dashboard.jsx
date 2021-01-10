@@ -263,15 +263,18 @@ function ElderPage() {
 //         setMatch(response.data.partnerId);
 //     })
 
+
+
+
+
 //List of potential matches
 function ElderPage_unmatched() {
     //Fetch list of users sorted by distance
 
     //for loop to (9 max) and display them in a 3x3 grid. 
     
-
-    const [lat, setLat] = useState("");
-    const [long, setLong] = useState("");
+    const [lat, setLat] = useState(0);
+    const [long, setLong] = useState(0);
     const [firstName, setFirstName] = useState("");
     const [lastName, setLastName] = useState("");
     const [age, setAge] = useState(0);
@@ -284,13 +287,10 @@ function ElderPage_unmatched() {
     useEffect(() => {
         const user_id = localStorage.getItem("userId")
         var Url = "http://ec2-18-217-84-140.us-east-2.compute.amazonaws.com:3000/api/users/id/" + user_id;
-        const param = {
-            _id : user_id
-        }
         axios.get(Url)
         .then(response => {
-            setLat(response.data.location[0])
-            setLong(response.data.location[1])
+            setLat(response.data.location[0]);
+            setLong(response.data.location[1]);
             console.log(response)
             console.log(response.data.location[0])
             console.log(response.data.location[1])
@@ -298,50 +298,41 @@ function ElderPage_unmatched() {
 
         }).then(() => {
             console.log("http://ec2-18-217-84-140.us-east-2.compute.amazonaws.com:3000/api/usersbyproximity?lat=" + lat + "&long=" + long)
-            var Url = "http://ec2-18-217-84-140.us-east-2.compute.amazonaws.com:3000/api/usersbyproximity?lat=" + lat + "&long=" + long;
-            axios.get(Url, param)
+            var Url = "http://ec2-18-217-84-140.us-east-2.compute.amazonaws.com:3000/api/usersbyproximity";
+            const options = {
+                method: "POST",
+                headers: { 'content-type': 'application/x-www-form-urlencoded' },
+                params: {lat: lat, long: long},
+                data: qs.stringify({id: user_id}),
+                url: "http://ec2-18-217-84-140.us-east-2.compute.amazonaws.com:3000/api/usersbyproximity"
+            };
+            axios(options)
             .then(response => {
                 console.log(response)
                 console.log("hello")
-                // setFirstName(response.data.firstName);
-                // setLastName(response.data.lastName);
-                // setAge(response.data.age);
-                // setBio(response.data.bio);
-                // setGender(response.data.gender);
-                // setContactNumber(response.data.contactNumber)
-                // setEmail(response.data.email)
+                setFirstName(response.data.firstName);
+                //console.log(firstName)
+                setLastName(response.data.lastName);
+                setAge(response.data.age);
+                setBio(response.data.bio);
+                setGender(response.data.gender);
+                setContactNumber(response.data.contactNumber)
+                setEmail(response.data.email)
             })
+            .catch(error => console.log(error.response.data))
         })
         .catch(function(err) {
             alert(err.message);
           }); 
-        }, [])
+        }, [lat, long])
    
         return (
+        <div>
         <Container>
             <Row>
                 <Col>
                     <div>
-
-                
-                        <Card boarder="warnin" className="mt-3" style={{ width: '18rem' }}>
-                            <Card.Img variant="top" src="https://images-na.ssl-images-amazon.com/images/I/411sV6Mle4L._SY300_.jpg" />
-                                <Card.Body>
-                                <Card.Title>{firstName} - {lastName}</Card.Title>
-                                    <Card.Text>
-                                        {bio}
-                                    </Card.Text>
-                                </Card.Body>
-                                    <ListGroup className="list-group-flush">
-                                        <ListGroupItem>Age: {age} Gender: {gender}</ListGroupItem>
-                                        <ListGroupItem>Phone Number: {contactNumber} </ListGroupItem>
-                                        <ListGroupItem>Email: {email} </ListGroupItem>
-                                    </ListGroup>
-                                <Card.Body>
-                                <Card.Link href="#">Card Link</Card.Link>
-                                <Card.Link href="#">Another Link</Card.Link>
-                            </Card.Body>
-                        </Card>       
+                        <createCard firstName={firstName} lastName={lastName} bio={bio} age={age} gender={gender} phone={contactNumber} email={email}/>
                     </div>
                 </Col>
                 <Col>
@@ -352,11 +343,32 @@ function ElderPage_unmatched() {
                     </div>
                 </Col>
             </Row>
-        </Container>        
+        </Container>
+        </div>        
     );
 
-
-
-    
 }
 
+function createCard(firstName, lastName, bio, age, gender, phone, email) {
+    return(
+        <div>
+        <Card boarder="warnin" className="mt-3" style={{ width: '18rem' }}>
+            <Card.Img variant="top" src="https://images-na.ssl-images-amazon.com/images/I/411sV6Mle4L._SY300_.jpg" />
+                <Card.Body>
+                <Card.Title>{firstName} {lastName}</Card.Title>
+                    <Card.Text>
+                        {bio}
+                    </Card.Text>
+                </Card.Body>
+                    <ListGroup className="list-group-flush">
+                        <ListGroupItem>Age: {age} Gender: {gender}</ListGroupItem>
+                        <ListGroupItem>Phone Number: {phone} </ListGroupItem>
+                        <ListGroupItem>Email: {email} </ListGroupItem>
+                    </ListGroup>
+                <Card.Body>
+                <Card.Link href="#">Card Link</Card.Link>
+                <Card.Link href="#">Another Link</Card.Link>
+            </Card.Body>
+        </Card>
+        </div>
+    );}

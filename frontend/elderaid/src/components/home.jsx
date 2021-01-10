@@ -15,7 +15,7 @@ function Home() {
                 </Jumbotron>
                 <Row className="show-grid text-center">
                     <Col xs={12} sm = {4} className = "sections">
-                        <Image src = "https://i.pinimg.com/474x/94/a9/41/94a941c850700ab51822a925c4e3b292.jpg" id="pic1"/>
+                        <Image src = "https://i.pinimg.com/474x/94/a9/41/94a941c850700ab51822a925c4e3b292.jpg" id="pic1" />
                         <h3>COVID-19</h3>
                         <p id = "margins1">During this ongoing COVID19 pandemic, it is apparent that the most vulnerable  
                         groups are seniors and people who are immuno-compromised. These people are not able to complete simple 
