@@ -1,173 +1,115 @@
-// import React from "react";
-
-// function Dashboard() {
-// return (
-//         <div>
-//             <p>Dashboard</p>
-//             <p>Please Login to View the Dashboard</p>
-//         </div>
-//     );
-// }
-
-// export default Dashboard;
-
 import React, { useContext, createContext, useState } from "react";
 import { BrowserRouter as Router, Switch, Route, Link, Redirect, useHistory, useLocation } from "react-router-dom";
+import axios from 'axios';
+import qs from 'qs';
 
-export default function Dashboard() {
-  return (
-    <ProvideAuth>
-      <Router>
-        <div>
-          <AuthButton />
-          <ul>
-            <li>
-              <Link to="/public">Public Page</Link>
-            </li>
-            <li>
-              <Link to="/protected">Protected Page</Link>
-            </li>
-          </ul>
 
-          <Switch>
 
-            <Route path="/public">
-              <PublicPage />
-            </Route>
+function Dashboard() {
+    //Sudo testing conditions
+    const sudo_role = "null"
+    const sudo_isVerified = (sudo_role == "ELDER") ? true: false
+    const sudo_match = false
 
-            <Route path="/login">
-              <LoginPage />
-            </Route>
+    const user_id = localStorage.getItem("userID")
+    var Url="http://ec2-18-217-84-140.us-east-2.compute.amazonaws.com:3000/api/user/id/${user_id}"
+    axios.get(Url)
+    .then(response => {
+        console.log("Response: ${response}")
+    })
 
-            <PrivateRoute path="/protected">
-              <YouthPage />
-            </PrivateRoute>
+    if(sudo_role == "YOUTH"){
+        return(
+            <div>
+            <YouthPage />
+            <p>Youth </p>
+            </div>
+        ); 
+    } else if (sudo_role == "ELDER") {
+        return(
+            <div>
+            <ElderPage />
+            <p>ELDER</p>
+            </div>
+        );        
+    } else {
+        return(
+            <div>
+            <PublicPage />
+            <p>Public </p>
+            </div>
+        );        
+    }
 
-          </Switch>
-        </div>
-      </Router>
-    </ProvideAuth>
-  );
-}
+} 
 
-const fakeAuth = {
-  isAuthenticated: false,
-  signin(cb) {
-    fakeAuth.isAuthenticated = true;
-    setTimeout(cb, 100); // fake async
-  },
-  signout(cb) {
-    fakeAuth.isAuthenticated = false;
-    setTimeout(cb, 100);
-  }
-};
+export default Dashboard;
 
-const authContext = createContext();
 
-function ProvideAuth({ children }) {
-  const auth = useProvideAuth();
-  return (
-    <authContext.Provider value={auth}>
-      {children}
-    </authContext.Provider>
-  );
-}
-
-function useAuth() {
-  return useContext(authContext);
-}
-
-function useProvideAuth() {
-  const [user, setUser] = useState(null);
-
-  const signin = cb => {
-    return fakeAuth.signin(() => {
-      setUser("user");
-      cb();
-    });
-  };
-
-  const signout = cb => {
-    return fakeAuth.signout(() => {
-      setUser(null);
-      cb();
-    });
-  };
-
-  return {
-    user,
-    signin,
-    signout
-  };
-}
-
-function AuthButton() {
-  let history = useHistory();
-  let auth = useAuth();
-
-  return auth.user ? (
-    <p>
-      Welcome!{" "}
-      <button
-        onClick={() => {
-          auth.signout(() => history.push("/"));
-        }}
-      >
-        Sign out
-      </button>
-    </p>
-  ) : (
-    <p>You are not logged in.</p>
-  );
-}
-
-// A wrapper for <Route> that redirects to the login
-// screen if you're not yet authenticated.
-function PrivateRoute({ children, ...rest }) {
-  let auth = useAuth();
-  return (
-    <Route
-      {...rest}
-      render={({ location }) =>
-        auth.user ? (
-          children
-        ) : (
-          <Redirect
-            to={{
-              pathname: "/login",
-              state: { from: location }
-            }}
-          />
-        )
-      }
-    />
-  );
-}
-
+//Not Signed in Page
 function PublicPage() {
-  return <h3>Public Dashboard: Not Signed In</h3>;
+    return(
+        <div>
+            <h1>Welcome to the Public Access Page</h1>
+            <h1>You have NOT signed in!</h1>
+        </div>
+    );
 }
 
+//Matched and Verified
 function YouthPage() {
-  return <h3>Youth Dashboard: You are Signed In</h3>;
+    return(
+        <div>
+            <h1>Welcome to the Youth Dashboard</h1>
+            <h1>You have signed in as Youth</h1>
+            <h1>Verified and Matched</h1>
+        </div>
+    );
 }
 
-function LoginPage() {
-  let history = useHistory();
-  let location = useLocation();
-  let auth = useAuth();
+//Unmatched and Unverified
+function YouthPage_unverified() {
+    return (
+        <div>
+            <h1>Welcome to the Youth Dashboard</h1>            
+            <p>Please Wait For Confirmation</p>
+            <h1>Unverified and Unmatched</h1>
+        </div>
+    );
+}
 
-  let { from } = location.state || { from: { pathname: "/" } };
-  let login = () => {
-    auth.signin(() => {
-      history.replace(from);
-    });
-  };
+//Verified but unmatched
+//GET /api/users/invites/id
+//GET requst returns users that picked them
+//Post Request by clicking button - should redirect to post partnership page?
+function YouthPage_unmatched() {
+    return (
+        <div>
+            <h1>Welcome to the Youth Dashboard</h1>     
+            <p>Please Wait For Confirmation</p>
+            <h1>You are Unmatched</h1>
+        </div>
+    );
+}
 
-  return (
-    <div>
-      <p>You must log in to view the page at {from.pathname}</p>
-      <button onClick={login}>Log in</button>
-    </div>
-  );
+//Full access and matched with partner
+function ElderPage() {
+    return(
+        <div>
+            <h1>Welcome to the Elder Dashboard</h1>
+            <h1>You have signed in as Elder</h1>
+            <h1>Verified and Matched</h1>
+        </div>
+    );
+}
+
+//List of potential matches
+function ElderPage_unmatched()  {
+    return(
+        <div>
+            <h1>Welcome to the Elder Dashboard</h1>
+            <h1>You have signed in as Elder</h1>
+            <h1>You are Unmatched</h1>
+        </div>
+    );
 }
