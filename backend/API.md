@@ -94,6 +94,7 @@ Returns list of user objects sorted by distance. Calculated via straight-line di
     User object list sorted from lowest to highest distance
     
     Example of a single returned user object:
+    ```json
      {
         "_id": "5ffa4cf99a2bbc38e469df6a",
         "firstName": "god",
@@ -104,4 +105,64 @@ Returns list of user objects sorted by distance. Calculated via straight-line di
         "bio": "im god",
         "distance": 123
     }
+    ```
+    
+    If ID could not be found:
+    **Code:** 404 <br />
+    ```json
+    No user with the specified ID was found.
+    ```
+
+
+
+**Send Invite to User**
+----
+Returns a success or failure.
+
+* **URL**
+
+  /api/sendinvite/<id>
+
+* **Method**
+
+  `POST`
+
+* **URL Params**
+
+  **Required:**
+
+  `id=[userid]`: ID to request
+
+* **Data Params**
+
+  `id`: requester ID
+
+* **Response**
+
+    **Content:**
+    
+    User object list sorted from lowest to highest distance
+    
+    If invite is already logged with the requestee:
+    **Code:** 200 <br />
+    ```json
+    User already found in invitations. No need to re-add.
+    ```
+    
+    If invite is successful:
+    **Code:** 200 <br />
+    ```json
+    Invitation sent successfully.
+    ```
+    If User invite ID is invalid:
+    **Code:** 400 <br />
+    ```json
+    err.message
+    ```
+
+    If ID could not be found:
+    **Code:** 404 <br />
+    ```json
+    No user with the specified ID was found.
+    ```
 
