@@ -2,9 +2,9 @@
 
 This document outlines the backend server API endpoints, their url parameters, data parameters, and return values.
 
-[API Endpoints](# API-endpoints)
-[User Schemas](# User-Schemas)
-[Helper Functions](# Helper-Functions)
+[API Endpoints](#API-endpoints)
+[User Schemas](#User-Schemas)
+[Helper Functions](#Helper-Functions)
 
 
 ### API endpoints
