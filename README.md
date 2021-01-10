@@ -1,5 +1,5 @@
 <p align="center">
-  <img width=806 height=203 src="frontend/elderaid/src/components/images/logo1.png" />
+  <img width=564 height=184 src="frontend/elderaid/src/components/images/logo1.png" />
 </p>
 
 # ElderAid
