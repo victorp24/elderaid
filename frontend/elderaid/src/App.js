@@ -2,7 +2,7 @@ import './App.css';
 import "bootstrap/dist/css/bootstrap.min.css";
 
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
-import { Navigation, Home, Signup, Login, Contact } from "./index";
+import { Navigation, Home, Dashboard, Signup, Login, Contact } from "./index";
 
 function App() {
   return (
@@ -11,6 +11,7 @@ function App() {
       <Navigation />
         <Switch>
           <Route path="/" exact component={() => <Home />} />
+          <Route path="/dashboard" exact component={() => <Dashboard />} />
           <Route path="/signup" exact component={() => <Signup />} />
           <Route path="/login" exact component={() => <Login />} />
           <Route path="/contact" exact component={() => <Contact />} />

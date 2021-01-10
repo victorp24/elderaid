@@ -1,11 +1,20 @@
 import React from "react";
 import { Link, withRouter } from "react-router-dom";
+import Logo from "./images/logo.jpg"
 
 function Navigation(props) {
   return (
     <div className="navigation">
       <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
         <div class="container">
+            <img
+                alt=""
+                src={Logo}
+                width="30"
+                height="30"
+                className="d-inline-block align-top"
+                id="nav_logo"
+            />{' '}
           <Link class="navbar-brand" to="/">
             ElderAid
           </Link>
@@ -30,6 +39,15 @@ function Navigation(props) {
                 <Link class="nav-link" to="/">
                   Home
                   <span class="sr-only">(current)</span>
+                </Link>
+              </li>
+              <li
+                class={`nav-item  ${
+                  props.location.pathname === "/Dashboard" ? "active" : ""
+                }`}
+              >
+                <Link class="nav-link" to="/Dashboard">
+                  Dashboard
                 </Link>
               </li>
               <li

@@ -9,6 +9,7 @@ export { default as Home } from "./components/home";
 export { default as Contact } from "./components/contact";
 export { default as Signup } from "./components/signup";
 export { default as Login } from "./components/login";
+export { default as Dashboard } from "./components/dashboard";
 
 ReactDOM.render(
   <React.StrictMode>
