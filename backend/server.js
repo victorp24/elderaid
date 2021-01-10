@@ -17,13 +17,24 @@ function logRequest(req, res, next){
 	next();
 }
 
+
 // a standard user schema example
 var userSchemaFields = [
 	"firstName", 
 	"lastName", 
 	"email", 
 	"password", 
-	"contactNumber"
+	"contactNumber",
+	"role",
+	"isVerified",
+	"flagged",
+	"imgUrl",
+	"location",
+	"age",
+	"gender",
+	"bio",
+	"partnerId",
+	"invitations",
 ];
 
 // helper function to check if array of fields match the obj's fields
@@ -35,6 +46,28 @@ function isSchemaValid(fields, obj) {
 	}
 	return true;
 }
+
+// Helper function to delete sensitive info that we don't want to pass to client
+function deleteSensitiveInfo(user) {
+
+	delete user.password;
+	delete user.email;
+	delete user.contactNumber;
+	delete user.role;
+	delete user.isVerified;
+	delete user.flagged;
+	delete user.location;
+	delete user.partnerId;
+	delete user.invitations;
+
+	return user;
+}
+
+// sort allUsers based on distance 
+function distanceSort(lat1, long1, lat2, long2) {
+	
+}
+
 
 const host = 'localhost';
 const port = 3000;
@@ -83,56 +116,67 @@ app.get('/api/usersbyproximity', function (req, res) {
 //	req.query.lat
 //	req.query.long
 	db.getUsers().then(function(allUsers) {
+		
 		for(var i = 0; i < allUsers.length; i++) {
-			delete allUsers[i].password;
-			delete allUsers[i].email;
-			delete allUsers[i].contactNumber;
-			delete allUsers[i].role;
-			delete allUsers[i].isVerified;
-			delete allUsers[i].flagged;
-			delete allUsers[i].location;
-			delete allUsers[i].partnerId;
-			delete allUsers[i].invitations;
+			allUsers[i] = deleteSensitiveInfo(allUsers[i]);
 			// need a function to calculate the distance put in in km unit rounded to nearest
+			// TODO: we haven't added a schema in database or in backend for a 'distance' parameter?? is that ok
 			allUsers[i].distance = distanceSort(allUsers)
 		}
 
 		// sort allUsers based on distance 
-		function distanceSort(userlist) {
-
-		}
+		distanceSort(lat1, long1, lat2, long2); 
+			
 	
 		res.json(allUsers);
 	})
 	
 });
 
-// requester's (elder) ID is in the POST data
-// id is youth id for adding requester into their invitations arr
-app.post('/api/sendinvite/:id', function (req, res){
+// // requester's (elder) ID is in the POST data
+// // id is youth id for adding requester into their invitations arr
+// app.post('/api/sendinvite/:id', function (req, res){
+// 	var jsonBody = req.body;
+// 	var requester_id = jsonBody.id; 
+// 	// Gets user by id from root parameter
+// 	db.getUserById(req.params.id).then(function(user) {
+// 		if(user != null) {
+// 			// Check to see if arr does not already contain requester ID, and add if not inside
+// 			for (var i = 0 ; i < user.invitations; ++i){
+// 				if (user.invitations[i] == requester_id)
+// 					res.status(200).send("User already found in invitations. No need to re-add");
+// 				// Add requester ID into youth ID's invitation arr
+// 				user.invitations.push(requester_id);
+// 			}
+// 			db.addUserInvite(req.params.id, user.invitations);
+// 		} else {
+// 			res.status(404).send("No User with the specified ID was found.");
+// 		}
+// 	})
 
-	// Check to see if arr does not already contain requester ID
+// 	// Return either 400 error bad request (couldn't be complete) or 200 status OK (went through)
+// });
 
-	// Add requester ID into youth ID's invitation arr
+// Get invitation arr from id and returns a user object array of people who are in side the invitation arr of the user id requested
+// TODO: test
 
-	// Return either 400 error bad request (couldn't be complete) or 200 status OK (went through)
-});
 
-// Get invitation arr from id
 app.get('/api/users/invites/:id', function (req, res){
-
-	// Get invitation arr from id
-
-	// Parse back-end invite array in user object -> user obj
-
-	// Return array of user objects that were listed inside the inv arr
-
+	// Gets user by id from root parameter
+	db.getUserById(req.params.id).then(function(user) {
+		db.getUserByIds(user.invitations).then(function(users) {
+			if (users == null) {
+				res.status(404).send("Invalid data in invitations array! Could not find user with specified ID!");
+			} else {
+				if (users.length < 1){
+					res.status(200).send("Invitation list is empty");
+				}
+				res.send(users);
+			}
+		})
+	})
 });
 
-app.get('/api/userverified/id', function (req, res){
-
-	// Return isVerified within user obj list
-});
 
 app.get('/api/users/id/:id', function (req, res) {
 	db.getUserById(req.params.id).then(function(user) {

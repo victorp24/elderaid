@@ -53,6 +53,33 @@ Database.prototype.getUserById = function(id) {
 				var object_id = id.toString();
 			}
 			resolve(db.collection('users').findOne({_id: object_id}));
+			//resolve( db.collection('users').find({_id: { $in: [ ObjectID("5ff807ade5a8ac5baceb51c0") ]}}) );
+			db.collection('users').find({_id: new ObjectID("5ff807ade5a8ac5baceb51c0") }).toArray(function(err, result) {
+				resolve(result[0]);
+			})
+		})	
+	)
+}
+
+Database.prototype.getUserByIds = function(ids) {
+	return this.connected.then(db => 
+		new Promise((resolve, reject) => {
+			var obj_id_arrays = [];
+			for(var i = 0; i < ids.length; i++) {
+				try {
+					var object_id = new ObjectID(ids[i]);
+				} catch(e){
+					var object_id = ids[i].toString();
+				}
+				obj_id_arrays.push(object_id);
+			}
+			
+			var obj_ids = {
+				"$in": obj_id_arrays
+			};
+			db.collection('users').find({_id: obj_ids }).toArray(function(err, result) {
+				resolve(result);
+			})
 		})	
 	)
 }
@@ -84,6 +111,27 @@ Database.prototype.createNewUser = function(user) {
 				}
 			})
 		})
+	)
+}
+
+Database.prototype.addUserInvite = function(id, invite) {
+	var remove = false;
+	return this.connected.then(db => 
+		new Promise((resolve, reject) => {
+			// grab a specific user from the database that matches the given id
+			// note: MongoDB uses '_id' as the identifier for documents in a collection
+			// also, MongoDB uses an object of type 'ObjectID' for the identifier
+			try {
+				var object_id = new ObjectID(id);
+			} catch(e) {
+				// error most likely occured since id passed is not in the proper format for ObjectID creation
+				var object_id = id.toString();
+			}
+			// Finds object with specified ID, and updates invite array
+			// TODO: check syntax of $set and updateOne from https://stackoverflow.com/questions/63869381/how-to-update-and-insert-new-element-in-array-in-mongodb
+			resolve(db.collection('users').updateOne(	{_id: object_id},
+														{ $set: { invitations: invite} }));
+		})	
 	)
 }
 
