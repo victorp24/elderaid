@@ -2,12 +2,13 @@
 
 This document outlines the backend server API endpoints, their url parameters, data parameters, and return values.
 
-[API Endpoints](#API-endpoints)
-[User Schemas](#User-Schemas)
-[Helper Functions](#Helper-Functions)
+#### Table of Contents
+- [API Endpoints](#API-endpoints)
+- [User Schemas](#User-Schemas)
+- [Helper Functions](#Helper-Functions)
 
 
-### API endpoints
+#### API endpoints
 
 **Add User Signup** 
 ----
@@ -402,7 +403,7 @@ Returns user object given an unique email and password.
 
     
     
-### User Schemas
+#### User Schemas
 
 **userSchemaFields** 
 ----
@@ -441,7 +442,7 @@ User schema for sign-up fields. Used for creating the initial user object.
 }
 ```
 
-### Helper Functions
+#### Helper Functions
 
 **isSchemaValid**
 ----
