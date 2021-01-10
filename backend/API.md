@@ -10,7 +10,7 @@ This document outlines the backend server API endpoints (url parameters, data pa
 
 # API endpoints
 
-**Add User Signup** 
+**Add User (Sign-up)** 
 ----
 Returns user object if a user exists and empty json otherwise
 
@@ -61,6 +61,47 @@ Returns user object if a user exists and empty json otherwise
     ```json
     Cannot add user: user schema mismatch.
     ```
+    
+**Modify Existing User** 
+----
+Modifies existing user object given ID and body.
+
+* **URL**
+
+  /api/users
+  
+* **Method**
+
+  `PUT`
+
+* **URL Params**
+
+  None
+
+* **Data Params**
+  
+  `firstName`, `lastName`, `password`, `contactNumber`
+
+* **Response**
+
+    **Content:**
+    If user exists and succesful update :
+    **Code:** 200 <br />
+    ```json
+    User with the specified ID was updated!
+    ```
+    
+    If un-successful update:
+    **Code:** 400 <br />
+    ```json
+    err.message
+    ```
+    If invalid ID or user does not exist error:
+    **Code:** 404 <br />
+    ```json
+    No user with the specified ID was found. Could not update user.
+    ```
+
 
 
 **Get Users by Distance**
