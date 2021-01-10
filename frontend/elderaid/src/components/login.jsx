@@ -62,9 +62,9 @@ export default function Login() {
             onClick={routeChange}
             >
             Login
-            {
+            {/* {
               location.loaded ? JSON.stringify(location) : "Location data not available yet."
-            }
+            } */}
         </Button>
 
       </Form>

@@ -33,7 +33,7 @@ function Contact() {
                 <Link to="/login">
                     <Button bsStyle = "primary" id = "centerWrapper">Join as an Elder or Youth</Button>
                 </Link>
-                </Jumbotron> */}
+                </Jumbotron>
                 <Row className="show-grid text-center">
                     <Col xs={12} sm = {4} className = "sections">
                         <Image src = "https://i.pinimg.com/474x/94/a9/41/94a941c850700ab51822a925c4e3b292.jpg" id="pic1" />
@@ -53,7 +53,7 @@ function Contact() {
                     <Col xs={12} sm = {4} className = "sections">
                         <Image src = "https://i.pinimg.com/originals/d6/4f/68/d64f682d261ec942b346dbf4223129ec.png" id="pic3"/>
                         <h3>Our Mission</h3>
-                        <p id=  "margins3">Our website provides a way for elders to partner with one youth or adult who would like to volunteer 
+                        <p id= "margins3">Our website provides a way for elders to partner with one youth or adult who would like to volunteer 
                         and help the most vulnerable people during these desperate times. We provide a very simple, intuitive user interface so that
                         elders can navigate it with ease and get a partner within a few clicks. Volunteers would have to go through an application
                         process and provide COVID-19 testing documents before being paired with an elder.</p>

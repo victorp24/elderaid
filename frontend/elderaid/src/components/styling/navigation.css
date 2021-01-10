@@ -1,3 +1,7 @@
 .navbar-brand{
     padding-left: 1%;
 }
+
+#signout_button{
+    margin-left: 30px;
+}

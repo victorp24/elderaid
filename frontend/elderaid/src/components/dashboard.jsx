@@ -21,26 +21,26 @@ function Dashboard() {
             alert(err.message);
           }); 
     }, [])
-    // if(role == "YOUTH"){
-    //     if(isVerified == true && match == null) {
-    //         return(<div><YouthPage_unmatched /></div>);             
-    //     }
-    //     else if(isVerified == true && match != null) {
-    //         return(<div><YouthPage /></div>);                  
-    //     }
-    //     else{
-    //         return(<div><YouthPage_unverified /></div>);                  
-    //     }
-    // } else if (role == "ELDER") {
-    //     if(match != null){
-    //         return(<div><ElderPage /></div>);             
-    //     } else{
-    //         return(<div><ElderPage_unmatched /></div>);                   
-    //     }
-    // } else {
-    //     return(<div><PublicPage /></div>);        
-    // }
-    return (<div><ElderPage_unmatched /></div>)
+    if(role == "YOUTH"){
+        if(isVerified == true && match == null) {
+            return(<div><YouthPage_unmatched /></div>);             
+        }
+        else if(isVerified == true && match != null) {
+            return(<div><YouthPage /></div>);                  
+        }
+        else{
+            return(<div><YouthPage_unverified /></div>);                  
+        }
+    } else if (role == "ELDER") {
+        if(match != null){
+            return(<div><ElderPage /></div>);             
+        } else{
+            return(<div><ElderPage_unmatched /></div>);                   
+        }
+    } else {
+        return(<div><PublicPage /></div>);        
+    }
+    return (<div><YouthPage_unmatched /></div>)
 }
 export default Dashboard;
 
@@ -117,7 +117,7 @@ function YouthPage() {
         <Container>
             <Row>
                 <Col>
-                    <div>
+                    <div id="partner_card">
 
                 
                         <Card boarder="warnin" className="mt-3" style={{ width: '18rem' }}>
@@ -134,16 +134,18 @@ function YouthPage() {
                                         <ListGroupItem>Email: {email} </ListGroupItem>
                                     </ListGroup>
                                 <Card.Body>
-                                <Card.Link href="#">Card Link</Card.Link>
-                                <Card.Link href="#">Another Link</Card.Link>
+                                <Card.Link href="#">Call</Card.Link>
+                                <Card.Link href="#">Message</Card.Link>
                             </Card.Body>
                         </Card>       
                     </div>
                 </Col>
                 <Col>
+                    <div id="text1">
                         <h1>Welcome to the Dashboard</h1>
                         <h2>You have signed in as Youth Member</h2>
                         <h4>Status: Verified and Matched</h4>
+                    </div>               
                 </Col>
             </Row>
         </Container>        
@@ -154,7 +156,7 @@ function YouthPage() {
 //Unmatched and Unverified
 function YouthPage_unverified() {
     return (
-        <div>
+        <div id="yunverified">
             <h1>Welcome to the Youth Dashboard</h1>
             <p>Please Wait For Confirmation</p>
             <h1>Status: Unverified and Unmatched</h1>
@@ -167,11 +169,29 @@ function YouthPage_unverified() {
 //GET requst returns users that picked them
 //Post Request by clicking button - should redirect to post partnership page?
 function YouthPage_unmatched() {
+    // const [invitedUsers, setInvitedUsers] = useState([])
+    // const options ={
+    //     method: "GET",
+    //     headers: { 'content-type': 'application/x-www-form-urlencoded' },
+    //     data: qs.stringify({id: user_id}),
+    //     url: "http://ec2-18-217-84-140.us-east-2.compute.amazonaws.com:3000/api/users/invites/" + user_id
+    // }
+    // const user_id = localStorage.getItem("userId")
+    // var Url = "http://ec2-18-217-84-140.us-east-2.compute.amazonaws.com:3000/api/users/invites/" + user_id
+    // axios(options)
+    // .then(response => {
+    //     for (let i = 0; i < response.length; i++) {
+    //         setInvitedUsers(response.data.firstName[i])
+    //     };
+    //     console.log(invitedUsers)
+    // })
     return (
+
         <div>
             <h1>Welcome to the Youth Dashboard</h1>
             <p>Please Wait For Confirmation</p>
             <h1>You are Unmatched</h1>
+            {/* <p>{invitedUsers}</p> */}
         </div>
     );
 }
@@ -285,6 +305,31 @@ function ElderPage_unmatched() {
     const [email, setEmail] = useState("");
     
     useEffect(() => {
+        
+        function createCard(firstName, lastName, bio, age, gender, phone, email) {
+            return(
+                <div>
+                <Card boarder="warnin" className="mt-3" style={{ width: '18rem' }}>
+                    <Card.Img variant="top" src="https://images-na.ssl-images-amazon.com/images/I/411sV6Mle4L._SY300_.jpg" />
+                        <Card.Body>
+                        <Card.Title>{firstName} {lastName}</Card.Title>
+                            <Card.Text>
+                                {bio}
+                            </Card.Text>
+                        </Card.Body>
+                            <ListGroup className="list-group-flush">
+                                <ListGroupItem>Age: {age} Gender: {gender}</ListGroupItem>
+                                <ListGroupItem>Phone Number: {phone} </ListGroupItem>
+                                <ListGroupItem>Email: {email} </ListGroupItem>
+                            </ListGroup>
+                        <Card.Body>
+                        {/*<Card.Link href="#">Card Link</Card.Link>
+                        <Card.Link href="#">Another Link</Card.Link>*/}
+                    </Card.Body>
+                </Card>
+                </div>
+            );}
+        
         const user_id = localStorage.getItem("userId")
         var Url = "http://ec2-18-217-84-140.us-east-2.compute.amazonaws.com:3000/api/users/id/" + user_id;
         axios.get(Url)
@@ -311,7 +356,7 @@ function ElderPage_unmatched() {
                 console.log(response)
                 console.log("hello")
                 setFirstName(response.data.firstName);
-                //console.log(firstName)
+                console.log(firstName) //undefined
                 setLastName(response.data.lastName);
                 setAge(response.data.age);
                 setBio(response.data.bio);
@@ -348,27 +393,3 @@ function ElderPage_unmatched() {
     );
 
 }
-
-function createCard(firstName, lastName, bio, age, gender, phone, email) {
-    return(
-        <div>
-        <Card boarder="warnin" className="mt-3" style={{ width: '18rem' }}>
-            <Card.Img variant="top" src="https://images-na.ssl-images-amazon.com/images/I/411sV6Mle4L._SY300_.jpg" />
-                <Card.Body>
-                <Card.Title>{firstName} {lastName}</Card.Title>
-                    <Card.Text>
-                        {bio}
-                    </Card.Text>
-                </Card.Body>
-                    <ListGroup className="list-group-flush">
-                        <ListGroupItem>Age: {age} Gender: {gender}</ListGroupItem>
-                        <ListGroupItem>Phone Number: {phone} </ListGroupItem>
-                        <ListGroupItem>Email: {email} </ListGroupItem>
-                    </ListGroup>
-                <Card.Body>
-                <Card.Link href="#">Card Link</Card.Link>
-                <Card.Link href="#">Another Link</Card.Link>
-            </Card.Body>
-        </Card>
-        </div>
-    );}

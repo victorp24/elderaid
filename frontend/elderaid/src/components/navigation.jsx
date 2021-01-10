@@ -1,9 +1,22 @@
 import React from "react";
-import { Link, withRouter } from "react-router-dom";
-import Logo from "./images/logo.jpg"
+import { Link, withRouter, useHistory } from "react-router-dom";
+import Logo from "./images/Clipboard01.jpg"
 import "./styling/navigation.css";
+import { Button } from 'react-bootstrap';
 
 function Navigation(props) {
+  
+  function handleSubmit(event) {
+    event.preventDefault();
+  }
+
+  const history = useHistory();  
+  function SignOut() {
+    const user_id = localStorage.getItem("userId")
+    localStorage.clear(user_id)
+    let path = "./";
+    history.push(path);
+  }
   return (
     <div className="navigation">
       <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
@@ -11,12 +24,12 @@ function Navigation(props) {
             <img
                 alt=""
                 src={Logo}
-                width="30"
-                height="30"
+                width="161"
+                height="53"
                 id="nav_logo"
             />{' '}
           <Link class="navbar-brand" to="/">
-            ElderAid
+            
           </Link>
           <button
             class="navbar-toggler"
@@ -77,6 +90,7 @@ function Navigation(props) {
                   Contact
                 </Link>
               </li>
+              <Button id="signout_button" size="sm" onClick={SignOut}>Sign Out</Button>
             </ul>
           </div>
         </div>
