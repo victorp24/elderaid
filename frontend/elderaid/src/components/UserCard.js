@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import { Button, Card, ListGroup, ListGroupItem } from 'react-bootstrap';
+import "./styling/UserCard.css";
 
 class UserCard extends Component {
     constructor(props) {
@@ -7,7 +8,7 @@ class UserCard extends Component {
     }
     render() {
         return(
-            <div>
+            <div class="cards">
             <Card boarder="warnin" className="mt-3" style={{ width: '18rem' }}>
                 <Card.Img variant="top" src={this.props.imageUrl} />
                     <Card.Body>

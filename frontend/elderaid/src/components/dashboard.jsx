@@ -271,22 +271,6 @@ function ElderPage() {
     );
 }
 
-// const [role, setRole] = useState("")
-//     const [isVerified, setVerified] = useState("")
-//     const [match, setMatch] = useState("")
-
-//     const user_id = localStorage.getItem("userId")
-//     var Url = "http://ec2-18-217-84-140.us-east-2.compute.amazonaws.com:3000/api/users/id/" + user_id;
-//     axios.get(Url)
-//     .then(response => {
-//         setRole(response.data.role);
-//         setVerified(response.data.isVerified);
-//         setMatch(response.data.partnerId);
-//     })
-
-
-
-
 
 //List of potential matches
 function ElderPage_unmatched() {
