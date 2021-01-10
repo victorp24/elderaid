@@ -39,14 +39,7 @@ ElderAid features:
   to enter their restaurant ID, along with entering their username/password
   combination. If the user is a customer, they will just be prompted for
   a username/password combination. 
-  * The page which comes up next is a page to scan a QR code which corresponds
-  to the table which the waiter/waitress is serving or the customer is sitting at,
-  the customer will be able to see which items have been charged to their table
-  and pay for whichever items they need to. The waiter/waitress will be allowed
-  to add items to the table they are serving.
-  * The user can pay for their items and the waiter/waitress can see if the table
-  has been paid for and know the customers are good to go.
-
+  
 * Backend + API **(Express.js)**
   * The APIs for ElderAid was implemented using the Express.js framework. 
   * API documentation was provided which allowed the frontend developers view and use APIs to make their HTTP GET, POST, and PUT requests, located here: [API DOCUMENTATION](backend/API.md).
