@@ -410,7 +410,7 @@ Returns user object given an unique email and password.
 Standard user schema that contains all relevant fields of interest.
 ```json
 {
-  "firstName", 
+ 	"firstName", 
 	"lastName", 
 	"email", 
 	"password", 
@@ -452,7 +452,7 @@ Parameters: `user_schema`, `user_obj`
 
 Returns: `bool`
 
-```json
+```javascript
 {
 	for(var i = 0; i < fields.length; i++) {
 		if(!obj.hasOwnProperty(fields[i])) {
@@ -471,7 +471,7 @@ Parameters: `User_Obj`
 
 Returns: `Scrubbed_User_Obj`
 
-```json
+```javascript
 {
 
 	delete user.password;
@@ -496,7 +496,7 @@ Parameters: `start_latitude`, `start_longitude`, `end_latitude`, `end_longitude`
 
 Returns: `distance_km`
 
-```json
+```javascript
 {
 	var R = 6371; // Radius of the earth in km
 	var dLat = deg2rad(lat2-lat1);  // deg2rad below
@@ -518,7 +518,7 @@ Parameters: `degrees`
 
 Returns: `radians`
 
-```json
+```javascript
 {
 	return deg * (Math.PI/180)
 }
