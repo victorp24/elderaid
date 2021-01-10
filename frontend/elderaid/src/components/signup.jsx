@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState} from "react";
 import { useForm } from './useForm'
 import { Form, Button, Container, Row, Col } from "react-bootstrap";
 import axios from "axios";
@@ -7,42 +7,32 @@ import { useHistory} from 'react-router-dom';
 
 function Signup() {
     const [values, handleChange] = useForm({firstName: "", lastName: "", email: "", password: "", contactNumber: ""})
-    const history = useHistory();
+    const [role, setRole] = useState("YOUTH")
 
-    const handleSubmit = (event) => {
-        if (event) {
-            event.preventDefault();
-        }
-        if (values.password1 === values.password2) {
-            
-        const config = {
-            header: {
-                'Content-Type': 'application/x-www-form-urlencoded'
-            }
-        }
-        var userInformation = {firstName: values.firstName, lastName: values.lastName, email: values.email, password: values.password1, contactNumber: values.contactNumber};
-        const options = {
-            method: 'POST',
-            headers: { 'content-type': 'application/x-www-form-urlencoded' },
-            data: qs.stringify(userInformation),
-            url: 'http://ec2-18-217-84-140.us-east-2.compute.amazonaws.com:3000/api/users'
-          };
-          axios(options);  
-        
-        var elderly = elderly.checked
-        var youth = youth.checked
-            if (elderly == true) {
-                let path = "./dashboard";
-                history.push(path);
-            } else if (youth == true) {
-                let path = "./contact";
-                history.push(path);
-            } else {
-                let path = "./home";
-                history.push(path); 
-            }
-        }
+    function handleSubmit(event) {
+      event.preventDefault();
     }
+
+        const history = useHistory
+        const routeChange = () => {
+            if (values.password1 === values.password2) {
+                var userInformation = {firstName: values.firstName, lastName: values.lastName, email: values.email, password: values.password1, contactNumber: values.contactNumber, role: role};
+                const options = {
+                    method: 'POST',
+                    headers: { 'content-type': 'application/x-www-form-urlencoded' },
+                    data: qs.stringify(userInformation),
+                    url: 'http://ec2-18-217-84-140.us-east-2.compute.amazonaws.com:3000/api/users'
+                  };
+                  axios(options).then(function(user) {
+                    //localStorage.setItem("userId", user.data._id);
+                    let path = "/login"; 
+                    history.push(path);  
+                  }).catch(function(err) {
+                    alert(err.response.data);
+                  });
+            }
+        }
+
   return (
     <Form onSubmit={handleSubmit}>
       <Container>
@@ -87,12 +77,20 @@ function Signup() {
         </Form.Group>
 
         <Form.Group controlId="formBasicCheckbox">
-        <Form.Check type="checkbox" label="Elderly" id="elderly" name="elderly"/>
-        <Form.Check type="checkbox" label="Youth" id="youth" name="youth"/>
+        <Form.Check type="checkbox" label="Are You A Senior?" id="elderly" name="elderly" onChange={() => {
+            var currentRole = role;
+            if (currentRole == "YOUTH") {
+                setRole("ELDER");
+            } else {
+                setRole("YOUTH");
+            };
+        }}/>
         </Form.Group>
 
       </Container>
-      <Button variant="primary" type="submit">
+      <Button variant="primary" type="submit"
+        onClick={routeChange}
+        >
         Submit
       </Button>
     </Form>

@@ -3,7 +3,20 @@ import { Form, Button, Container, Row, Col } from "react-bootstrap";
 
 function Home() {
   return (
-    <div>Home Page</div>
+      <Container> 
+        <p id="home_picture">ElderAID</p>
+      </Container>
+    // <Container>
+    //   <Row>
+    //     <Col>1 of 2</Col>
+    //     <Col>2 of 2</Col>
+    //   </Row>
+    //   <Row>
+    //     <Col>1 of 3</Col>
+    //     <Col>2 of 3</Col>
+    //     <Col>3 of 3</Col>
+    //   </Row>
+    // </Container>
 
     // <div className="home">
     //   <div class="container">
