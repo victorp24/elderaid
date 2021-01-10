@@ -86,13 +86,13 @@ Modifies existing user object given ID and body.
 
     **Content:**
     If user exists and succesful update :
-    ** Code:** 200 <br />
+    **Code:** 200 <br />
     ```json
     User with the specified ID was updated!
     ```
     
     If un-successful update:
-    ** Code:** 400 <br />
+    **Code:** 400 <br />
     ```json
     err.message
     ```
