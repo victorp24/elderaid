@@ -53,10 +53,6 @@ Database.prototype.getUserById = function(id) {
 				var object_id = id.toString();
 			}
 			resolve(db.collection('users').findOne({_id: object_id}));
-			//resolve( db.collection('users').find({_id: { $in: [ ObjectID("5ff807ade5a8ac5baceb51c0") ]}}) );
-			db.collection('users').find({_id: new ObjectID("5ff807ade5a8ac5baceb51c0") }).toArray(function(err, result) {
-				resolve(result[0]);
-			})
 		})	
 	)
 }
