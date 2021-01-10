@@ -161,6 +161,47 @@ Returns a success or failure.
     No user with the specified ID was found.
     ```
 
+**Update Location**
+----
+Updates the location given a specified ID.
+
+
+* **URL**
+
+  /api/updatelocation/<id>
+
+* **Method**
+
+  `PUT`
+
+* **URL Params**
+
+  **Required:**
+
+  `id=[userid]`: ID with invitations received
+
+* **Data Params**
+
+   `lat=[double]`: latitude
+   `long=[double]`: longitude
+
+* **Response**
+
+    **Content:**
+    
+    If successful:
+    **Code:** 200 <br />
+    ```json
+    Location Updated
+    ```
+    
+    If ID could not be found or invalid user:
+    **Code:** 404 <br />
+    ```json
+    No user with the specified ID was found.
+    ```
+
+
 
 **Get list of invites**
 ----
