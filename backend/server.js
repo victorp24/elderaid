@@ -63,11 +63,23 @@ function deleteSensitiveInfo(user) {
 	return user;
 }
 
-// sort allUsers based on distance 
-function distanceSort(lat1, long1, lat2, long2) {
-	
+// sort allUsers based on straight-line distance. If we want distance based on roads, we will need to use a mapping API, which is less trivial than this implementation
+// Stolen from https://stackoverflow.com/questions/18883601/function-to-calculate-distance-between-two-coordinates
+function distanceSort(lat1, lon1, lat2, lon2) {
+	var R = 6371; // Radius of the earth in km
+	var dLat = deg2rad(lat2-lat1);  // deg2rad below
+	var dLon = deg2rad(lon2-lon1); 
+	var a = 	Math.sin(dLat/2) * Math.sin(dLat/2) +
+	  			Math.cos(deg2rad(lat1)) * Math.cos(deg2rad(lat2)) * 
+	  			Math.sin(dLon/2) * Math.sin(dLon/2); 
+	var c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a)); 
+	var d = R * c; // Distance in km
+	return d;
 }
-
+  
+function deg2rad(deg) {
+	return deg * (Math.PI/180)
+}
 
 const host = 'localhost';
 const port = 3000;
@@ -112,50 +124,60 @@ app.route('/api/users')
 		}
 	});
 	
+
 app.get('/api/usersbyproximity', function (req, res) {
-//	req.query.lat
-//	req.query.long
-	db.getUsers().then(function(allUsers) {
-		
+	db.getUsers().then(function(allUsers) {		
+		// Latitude and longitude coordinates of the query
+		var lat1 = req.query.lat;
+		var long1 = req.query.long;	
+
+		var allFreeUsers = [];
+
 		for(var i = 0; i < allUsers.length; i++) {
-			allUsers[i] = deleteSensitiveInfo(allUsers[i]);
-			// need a function to calculate the distance put in in km unit rounded to nearest
-			// TODO: we haven't added a schema in database or in backend for a 'distance' parameter?? is that ok
-			allUsers[i].distance = distanceSort(allUsers)
+			if ((allUsers[i].partnerId != null || allUsers[i].partnerId === "") && allUsers[i].isVerified == true && allUsers[i]._id != req.body.id){
+				// set distance of user compared to elder's location
+				allUsers[i].distance = distanceSort(lat1, long1, allUsers[i].location[0], allUsers[i].location[1]);
+				allUsers[i] = deleteSensitiveInfo(allUsers[i]);
+				allFreeUsers.push(allUsers[i]);	
+			}
+			
 		}
 
-		// sort allUsers based on distance 
-		distanceSort(lat1, long1, lat2, long2); 
-			
-	
-		res.json(allUsers);
+		// sort based on distance, ascending. aka from min to max
+		allFreeUsers.sort((a, b) => {
+			return a.distance - b.distance;
+		});		
+
+		res.json(allFreeUsers); 
 	})
 	
 });
 
-// // requester's (elder) ID is in the POST data
-// // id is youth id for adding requester into their invitations arr
-// app.post('/api/sendinvite/:id', function (req, res){
-// 	var jsonBody = req.body;
-// 	var requester_id = jsonBody.id; 
-// 	// Gets user by id from root parameter
-// 	db.getUserById(req.params.id).then(function(user) {
-// 		if(user != null) {
-// 			// Check to see if arr does not already contain requester ID, and add if not inside
-// 			for (var i = 0 ; i < user.invitations; ++i){
-// 				if (user.invitations[i] == requester_id)
-// 					res.status(200).send("User already found in invitations. No need to re-add");
-// 				// Add requester ID into youth ID's invitation arr
-// 				user.invitations.push(requester_id);
-// 			}
-// 			db.addUserInvite(req.params.id, user.invitations);
-// 		} else {
-// 			res.status(404).send("No User with the specified ID was found.");
-// 		}
-// 	})
+// requester's (elder) ID is in the POST data
+// id is youth id for adding requester into their invitations arr
+app.post('/api/sendinvite/:id', function (req, res){
+	var jsonBody = req.body;
+	var requester_id = jsonBody.id; 
+	// Gets user by id from root parameter
+	db.getUserById(req.params.id).then(function(user) {
+		if(user != null) {
+			// Check to see if arr does not already contain requester ID, and add if not inside
+			if(user.invitations.includes(requester_id)) {
+				res.status(200).send("User already found in invitations. No need to re-add.");
+			} else {
+				user.invitations.push(requester_id);
+			}
+			db.addUserInvite(req.params.id, user.invitations).then(function(response) {
+				res.status(200).send("Invitation sent successfully");
+			}).catch(function(err) {
+				res.status(400).send(err.message);
+			});
+		} else {
+			res.status(404).send("No User with the specified ID was found.");
+		}
+	})
 
-// 	// Return either 400 error bad request (couldn't be complete) or 200 status OK (went through)
-// });
+});
 
 // Get invitation arr from id and returns a user object array of people who are in side the invitation arr of the user id requested
 // TODO: test
@@ -176,7 +198,6 @@ app.get('/api/users/invites/:id', function (req, res){
 		})
 	})
 });
-
 
 app.get('/api/users/id/:id', function (req, res) {
 	db.getUserById(req.params.id).then(function(user) {
