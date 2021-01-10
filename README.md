@@ -12,6 +12,8 @@ This is where our app could come in. What if those elderly and immuno-compromise
   Backend:
   - Victor Parangue
   - Martin Chua
+  
+  
   Frontend:
   - Parmvir Shergill
   - Michael Wu
