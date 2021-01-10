@@ -142,7 +142,6 @@ app.route('/api/users')
 		}
 	});
 
-// TODO: vic found a bug after testing here but forgot 
 app.get('/api/usersbyproximity', function (req, res) {
 	db.getUsers().then(function (allUsers) {
 		// Latitude and longitude coordinates of the query
@@ -172,17 +171,24 @@ app.get('/api/usersbyproximity', function (req, res) {
 	})
 });
 
-// Updates location of the given ID
-app.get('/api/userverified/:id', function (req, res) {
+// Updates location of the given ID. Assumes lat and long are validated.
+app.put('/api/updatelocation/:id', function (req, res) {
+	var locations = [];
 	var jsonBody = req.body;
-	var req_id = jsonBody.id;
-	db.updateLocationById(req.params.id, re).then(function (user) {
+	locations.push(jsonBody.lat);
+	locations.push(jsonBody.long);
+
+	db.getUserById(req.params.id).then(function(user) {
 		if (user != null) {
-			res.json(user.isVerified);
+			db.updateLocationById(req.params.id, locations).then(function (response) {
+				res.status(200).send("Location Updated");
+			})
 		} else {
-			res.status(404).send("No User with the specified ID was found.");
+			res.status(404).send("No user with the specified ID was found.");
 		}
-	})
+	}).catch(function (err) {
+		res.status(400).send(err.message);
+	});
 });
 
 // requester's (elder) ID is in the POST data. Requester sends invite to requestee (id in url)
@@ -213,7 +219,6 @@ app.post('/api/sendinvite/:id', function (req, res) {
 			res.status(404).send("No User with the specified ID was found.");
 		}
 	})
-
 });
 
 // Get invitation arr from id and returns a user object array of people who are in side the invitation arr of the user id requested
