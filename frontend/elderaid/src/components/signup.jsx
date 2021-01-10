@@ -3,10 +3,12 @@ import { useForm } from './useForm'
 import { Form, Button, Container, Row, Col } from "react-bootstrap";
 import axios from "axios";
 import qs from 'qs';
-import { Redirect } from 'react-router-dom';
+import { useHistory} from 'react-router-dom';
 
 function Signup() {
     const [values, handleChange] = useForm({firstName: "", lastName: "", email: "", password: "", contactNumber: ""})
+    const history = useHistory();
+
     const handleSubmit = (event) => {
         if (event) {
             event.preventDefault();
@@ -29,13 +31,16 @@ function Signup() {
         
         var elderly = elderly.checked
         var youth = youth.checked
-        if (elderly == true) {
-            return <Redirect to="/Dashboard" />
-        } else if (youth == true) {
-            return <Redirect to="/Contact" /> 
-        } else {
-            return <Redirect to="/Home" /> 
-        }
+            if (elderly == true) {
+                let path = "./dashboard";
+                history.push(path);
+            } else if (youth == true) {
+                let path = "./contact";
+                history.push(path);
+            } else {
+                let path = "./home";
+                history.push(path); 
+            }
         }
     }
   return (
@@ -82,8 +87,8 @@ function Signup() {
         </Form.Group>
 
         <Form.Group controlId="formBasicCheckbox">
-        <Form.Check type="checkbox" label="Elderly" name="elderly" />
-        <Form.Check type="checkbox" label="Youth" name="youth" />
+        <Form.Check type="checkbox" label="Elderly" id="elderly" name="elderly"/>
+        <Form.Check type="checkbox" label="Youth" id="youth" name="youth"/>
         </Form.Group>
 
       </Container>

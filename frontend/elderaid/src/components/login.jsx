@@ -1,9 +1,9 @@
 import React, { useState } from "react";
-import Form from "react-bootstrap/Form";
-import Button from "react-bootstrap/Button";
 import "./styling/login.css";
 import axios from 'axios';
 import qs from 'qs';
+import { useHistory } from "react-router-dom";
+import { Form, Button, Container, Row, Col } from "react-bootstrap";
 
 export default function Login() {
   const [email, setEmail] = useState("");
@@ -29,7 +29,11 @@ export default function Login() {
         alert(err.response.data);
       });  
   }
-
+  const history = useHistory();
+  const routeChange = () =>{ 
+        let path = "/dashboard"; 
+        history.push(path);  
+  }
 
   return (
     <div className="Login">
@@ -51,10 +55,50 @@ export default function Login() {
             onChange={(e) => setPassword(e.target.value)}
           />
         </Form.Group>
-        <Button id="login_button" block size="lg" type="submit" disabled={!validateForm()}>
-          Login
+
+        <Button color="primary" className="px-4"
+            onClick={routeChange}
+            >
+            Login
         </Button>
+
       </Form>
     </div>
   );
 }
+
+// import React from 'react';
+// import { useHistory } from "react-router-dom";
+// import { Form, Button, Container, Row, Col } from "react-bootstrap";
+
+// function Login() {
+
+//   const history = useHistory();
+
+//   const routeChange = () =>{ 
+//     let path = "/contact"; 
+//     history.push(path);
+//   }
+
+//   return (
+//       <div className="app flex-row align-items-center">
+//         <Container>
+//           ...
+//           <Row>
+//             <Col xs="6">                      
+//               <Button color="primary" className="px-4"
+//                 onClick={routeChange}
+//                   >
+//                   Login
+//                 </Button>
+//             </Col>
+//             <Col xs="6" className="text-right">
+//               <Button color="link" className="px-0">Forgot password?</Button>
+//             </Col>
+//           </Row>
+//           ...
+//         </Container>
+//       </div>
+//   );
+// }
+// export default Login;
