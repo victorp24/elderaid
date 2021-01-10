@@ -37,6 +37,15 @@ var userSchemaFields = [
 	"invitations",
 ];
 
+var userSchemaSignUpFields = [
+	"firstName", 
+	"lastName", 
+	"email", 
+	"password", 
+	"contactNumber",
+	"role",
+];	
+
 // helper function to check if array of fields match the obj's fields
 function isSchemaValid(fields, obj) {
 	for(var i = 0; i < fields.length; i++) {
@@ -101,6 +110,7 @@ app.listen(port, () => {
 // enable all cross-site domain requests (this is a security breach, do not do in actual production-level app)
 app.use(cors());
 
+// Add user (signup)
 app.route('/api/users')
 	.get(function(req, res, next) {
 		db.getUsers().then(function(allUsers) {
@@ -113,7 +123,16 @@ app.route('/api/users')
 	})
 	.post(function (req, res) {
 		var jsonBody = req.body;
-		if(isSchemaValid(userSchemaFields, jsonBody)) {
+		if(isSchemaValid(userSchemaSignUpFields, jsonBody)) {
+			jsonBody.isVerified = false;
+			jsonBody.flagged = false;
+			jsonBody.imageUrl = "";
+			jsonBody.location = [];
+			jsonBody.age = -1;
+			jsonBody.gender = "";
+			jsonBody.bio = "";
+			jsonBody.partnerId = "",
+			jsonBody.invitations = [];
 			db.createNewUser(jsonBody).then(function(newUser) {
 				res.json(newUser);
 			}, function(err) {
@@ -196,6 +215,7 @@ app.get('/api/users/invites/:id', function (req, res){
 	})
 });
 
+// Finds user by id
 app.get('/api/users/id/:id', function (req, res) {
 	db.getUserById(req.params.id).then(function(user) {
 		if(user != null) {
@@ -207,6 +227,18 @@ app.get('/api/users/id/:id', function (req, res) {
 	})
 });
 
+// Finds if user is verified or not
+app.get('/api/userverified/:id', function (req, res) {
+	db.getUserById(req.params.id).then(function(user) {
+		if(user != null) {
+			res.json(user.isVerified);
+		} else {
+			res.status(404).send("No User with the specified ID was found.");
+		}
+	})
+});
+
+// Authentication + email validation for no same user with email
 app.post('/api/authenticate', function (req,res) {
 	var jsonBody = req.body;
 	db.getUserByEmail(jsonBody.email).then(function(user) {
