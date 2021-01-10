@@ -33,13 +33,8 @@ ElderAid features:
 </p>
 
 * **Frontend**
-  * The frontend was implemented using React Native, there is a 
-  landing page where the user can register or log in, using a
-  facebook integration to link their facebook account.
-  * While creating an account, if the user is a waiter/waitress, they are prompted
-  to enter their restaurant ID, along with entering their username/password
-  combination. If the user is a customer, they will just be prompted for
-  a username/password combination. 
+  * The frontend was implemented using the React.js framework.
+  * TODO: Add frontend stuff
 
 <p align="left">
   <img width=150 height=40 src="https://buttercms.com/static/images/tech_banners/ExpressJS.8587dd0647ca.png" />
