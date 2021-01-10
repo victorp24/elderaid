@@ -17,7 +17,6 @@ function logRequest(req, res, next){
 	next();
 }
 
-
 // a standard user schema example
 var userSchemaFields = [
 	"firstName", 
@@ -68,6 +67,7 @@ function deleteSensitiveInfo(user) {
 	delete user.location;
 	delete user.partnerId;
 	delete user.invitations;
+	
 
 	return user;
 }
@@ -115,8 +115,7 @@ app.route('/api/users')
 	.get(function(req, res, next) {
 		db.getUsers().then(function(allUsers) {
 			for(var i = 0; i < allUsers.length; i++) {
-				delete allUsers[i].password;
-				delete allUsers[i]._id;
+				allUsers[i] = deleteSensitiveInfo(allUsers[i]);
 			}
 			res.json(allUsers);
 		})
@@ -143,7 +142,7 @@ app.route('/api/users')
 		}
 	});
 	
-
+// TODO: vic found a bug after testing here but forgot 
 app.get('/api/usersbyproximity', function (req, res) {
 	db.getUsers().then(function(allUsers) {		
 		// Latitude and longitude coordinates of the query
@@ -151,13 +150,14 @@ app.get('/api/usersbyproximity', function (req, res) {
 		var long1 = req.query.long;	
 
 		var allFreeUsers = [];
-
+		var check = false;
 		for(var i = 0; i < allUsers.length; i++) {
 			if ((allUsers[i].partnerId != null || allUsers[i].partnerId === "") && allUsers[i].isVerified == true && allUsers[i]._id != req.body.id){
 				// set distance of user compared to elder's location
 				allUsers[i].distance = distanceSort(lat1, long1, allUsers[i].location[0], allUsers[i].location[1]);
 				allUsers[i] = deleteSensitiveInfo(allUsers[i]);
 				allFreeUsers.push(allUsers[i]);	
+				check = true;
 			}
 			
 		}
@@ -167,12 +167,18 @@ app.get('/api/usersbyproximity', function (req, res) {
 			return a.distance - b.distance;
 		});		
 
-		res.json(allFreeUsers); 
+		if (check){
+			res.json(allFreeUsers); 
+		}
+		else{
+			res.status(404).send("No User with the specified ID was found.");
+		}
+
 	})
 	
 });
 
-// requester's (elder) ID is in the POST data
+// requester's (elder) ID is in the POST data. Requester sends invite to requestee (id in url)
 // id is youth id for adding requester into their invitations arr
 app.post('/api/sendinvite/:id', function (req, res){
 	var jsonBody = req.body;
@@ -186,8 +192,13 @@ app.post('/api/sendinvite/:id', function (req, res){
 			} else {
 				user.invitations.push(requester_id);
 			}
+			// Add both user invite to invitation array for both requester and requestee
 			db.addUserInvite(req.params.id, user.invitations).then(function(response) {
-				res.status(200).send("Invitation sent successfully");
+				var requester_invitations = [];
+				requester_invitations.push(req.params.id);
+				db.addUserInvite(requester_id, requester_invitations).then(function(response) {
+					res.status(200).send("Invitation sent successfully");
+				});
 			}).catch(function(err) {
 				res.status(400).send(err.message);
 			});
@@ -215,11 +226,67 @@ app.get('/api/users/invites/:id', function (req, res){
 	})
 });
 
+// Youth id (url id) -> accept invite from requester (body id)
+// after youth accepts invite, youth must go through each id of its invitation and clear the invitation array of the ones
+// that are not accepted
+app.post('/api/users/invites/:id', function (req, res) {
+	db.getUserById(req.params.id).then(function(user) {
+
+		var indexOfAcceptedElder = user.invitations.indexOf(req.body.id);
+		if(indexOfAcceptedElder == -1) {
+			res.status(400).send("Trying to accept user invitation of an elder who has not sent an invitation");
+		}
+
+		// user add itself to its invitations array so that it is also cleared with the next call to the database
+		user.invitations.push(req.params.id);
+
+		db.clearInvitationsByIds(user.invitations).then(function(result) {
+			db.updatePartnerId(req.params.id, req.body.id).then(function() {
+				db.updatePartnerId(req.body.id, req.params.id).then(function() {
+					res.status(200).send("Invitation acception sent");
+				})
+			})
+		}).catch(function(err) {
+			res.status(400).send(err.message);
+		});		
+	})
+});
+
+app.post('/test', function (req, res) {
+	var userIds = ["5ff807ade5a8ac5baceb51c0","5ffa7ee2f85f42073cb8faa2", "5ffa8d77db53f31b70d7417c", "5ffa8e439d5e31ac16583648"];
+	db.clearInvitationsByIds(userIds).then(function() {
+		res.status(200).send();
+	})
+});
+
+// make endpoint for elder to check their status of invitation
+app.get('/api/invitestatus/:id', function (req, res) {
+	db.getUserById(req.params.id).then(function(user) {
+		var obj = {
+			status: ""
+		}
+		if(user != null) {
+			if((user.partnerId == null || user.partnerId === "") && user.invitations.length == 0) {
+				obj.status = "DECLINED";
+				res.json(obj);
+			} else if( (user.partnerId == null || user.partnerId === "") && user.invitations.length == 1 ) {
+				obj.status = "PENDING";
+				res.json(obj);
+			} else {
+				obj.status = "ACCEPTED";
+				res.json(obj);
+			}
+		} else {
+			res.status(404).send("User id not found");
+		}
+	})
+});
+
 // Finds user by id
 app.get('/api/users/id/:id', function (req, res) {
 	db.getUserById(req.params.id).then(function(user) {
 		if(user != null) {
-			delete user.password;
+			delete user.password; //TODO: should this be deleteSensitiveInfo ?
 			res.json(user);
 		} else {
 			res.status(404).send("No User with the specified ID was found.");

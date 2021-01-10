@@ -80,6 +80,50 @@ Database.prototype.getUserByIds = function(ids) {
 	)
 }
 
+Database.prototype.updatePartnerId = function(myId, partnerId) {
+	var remove = false;
+	return this.connected.then(db => 
+		new Promise((resolve, reject) => {
+			// grab a specific user from the database that matches the given id
+			// note: MongoDB uses '_id' as the identifier for documents in a collection
+			// also, MongoDB uses an object of type 'ObjectID' for the identifier
+			try {
+				var object_id = new ObjectID(myId);
+			} catch(e) {
+				// error most likely occured since id passed is not in the proper format for ObjectID creation
+				var object_id = myId.toString();
+			}
+			// Finds object with specified ID, and updates invite array
+			// TODO: check syntax of $set and updateOne from https://stackoverflow.com/questions/63869381/how-to-update-and-insert-new-element-in-array-in-mongodb
+			resolve(db.collection('users').updateOne(	{_id: object_id},
+														{ $set: { partnerId: partnerId} }));
+		})	
+	)
+
+}
+
+
+Database.prototype.clearInvitationsByIds = function(ids) {
+	return this.connected.then(db => 
+		new Promise((resolve, reject) => {
+			var obj_id_arrays = [];
+			for(var i = 0; i < ids.length; i++) {
+				try {
+					var object_id = new ObjectID(ids[i]);
+				} catch(e){
+					var object_id = ids[i].toString();
+				}
+				obj_id_arrays.push(object_id);
+			}
+			
+			var obj_ids = {
+				"$in": obj_id_arrays
+			};
+			resolve(db.collection('users').update({_id: obj_ids}, { $set: { invitations: []} }, {multi: true}));
+		})	
+	)
+}
+
 Database.prototype.getUserByEmail = function(email) {
 	return this.connected.then(db => 
 		new Promise((resolve, reject) => {
@@ -111,7 +155,6 @@ Database.prototype.createNewUser = function(user) {
 }
 
 Database.prototype.addUserInvite = function(id, invite) {
-	var remove = false;
 	return this.connected.then(db => 
 		new Promise((resolve, reject) => {
 			// grab a specific user from the database that matches the given id
