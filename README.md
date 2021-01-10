@@ -18,7 +18,7 @@ This is where our app could come in. What if those elderly and immuno-compromise
 
 ### Description
 
-ElderAid is a website application which allows the elderly to obtain groceries and help through a simple and easy-to-use interface. Powered with a React.js frontend and Express.js server with a mongoDB database, ElderAid allows for stigma-free assistance from youth volunteers in helping out the elderly. After a verification process for youth volunteers, the elderly can view and choose different youth volunteers based on location distance. Once both users accept to be paired, they can interact with each other via the in-app chat interface or contact information listed.
+ElderAid is a website application which allows the elderly to obtain groceries and help through a simple and easy-to-use interface. Powered with a React.js frontend and Express.js server with a mongoDB database, ElderAid allows for stigma-free assistance from youth volunteers in helping out the elderly. After a verification process for youth volunteers, the elderly can view and choose different youth volunteers based on location distance. Once both users accept to be paired, they can interact with each other via the in-app chat interface or contact information listed. ElderAid is designed to be straight-forward and uncomplicated for those who may not be as well-versed in technology.
 
 ElderAid features:
   - Database: MongoDB
@@ -39,9 +39,10 @@ ElderAid features:
   * After verification for elders, there are two dashboard views:
     * Pre-partnership, where the elder can view closest youths by location and send invites
     * Post-partnership, where the elder and youth have connected
-  * After verification for youths, there are also two dashboard views:
+  * After a verification process for youths, there are also two dashboard views:
     * Pre-partnership, where the youth can see a list of invites from elders and accept one
     * Post-partnership, where after the acceptance the youth and elder are connected
+  * Following a match, the matching partners will be able to view each other's contact information.
   * On the profile customization page, the user (both elder and youth) can customize their personal information and add a profile picture. 
 
 <p align="left">
