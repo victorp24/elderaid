@@ -355,6 +355,56 @@ Returns if user with the unique ID specified is verified or not.
     No User with the specified ID was found.
     ```
 
+
+**Check User Invitation Status**
+----
+Returns invitation status given a specified user ID.
+
+* **URL**
+
+  /api/invitestatus/<id>
+
+* **Method**
+
+  `GET`
+
+* **URL Params**
+
+  **Required:**
+
+  `id=[userid]`: ID of user
+
+* **Data Params**
+
+  None
+
+* **Response**
+
+    **Content:**
+    
+    Object containing status of user invitation. Eg.
+    ```json
+    {
+       "status": "ACCEPTED",
+    }
+    ```
+    ```json
+    {
+       "status": "PENDING",
+    }
+    ```
+    ```json
+    {
+       "status": "DECLINED",
+    }
+    ```
+  
+    If ID could not be found or invalid user:
+    **Code:** 404 <br />
+    ```json
+    User ID not found.
+    ```
+    
 **Authenticate User**
 ----
 Returns user object given an unique email and password.
