@@ -28,7 +28,7 @@ var userSchemaFields = [
 	"role",
 	"isVerified",
 	"flagged",
-	"imgUrl",
+	"imageUrl",
 	"location",
 	"age",
 	"gender",
@@ -180,9 +180,6 @@ app.post('/api/sendinvite/:id', function (req, res){
 });
 
 // Get invitation arr from id and returns a user object array of people who are in side the invitation arr of the user id requested
-// TODO: test
-
-
 app.get('/api/users/invites/:id', function (req, res){
 	// Gets user by id from root parameter
 	db.getUserById(req.params.id).then(function(user) {
