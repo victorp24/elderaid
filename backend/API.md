@@ -1,6 +1,6 @@
 #### Backend API Documentation
 
-This document outlines the backend server API endpoints, their url parameters, data parameters, and return values.
+This document outlines the backend server API endpoints (url parameters, data parameters, and return values), user schemas, and helper functions.
 
 #### Table of Contents
 - [API Endpoints](#API-endpoints)
@@ -355,6 +355,56 @@ Returns if user with the unique ID specified is verified or not.
     No User with the specified ID was found.
     ```
 
+
+**Check User Invitation Status**
+----
+Returns invitation status given a specified user ID.
+
+* **URL**
+
+  /api/invitestatus/<id>
+
+* **Method**
+
+  `GET`
+
+* **URL Params**
+
+  **Required:**
+
+  `id=[userid]`: ID of user
+
+* **Data Params**
+
+  None
+
+* **Response**
+
+    **Content:**
+    
+    Object containing status of user invitation. Eg.
+    ```json
+    {
+       "status": "ACCEPTED",
+    }
+    ```
+    ```json
+    {
+       "status": "PENDING",
+    }
+    ```
+    ```json
+    {
+       "status": "DECLINED",
+    }
+    ```
+  
+    If ID could not be found or invalid user:
+    **Code:** 404 <br />
+    ```json
+    User ID not found.
+    ```
+    
 **Authenticate User**
 ----
 Returns user object given an unique email and password.
@@ -488,6 +538,22 @@ Returns: `Scrubbed_User_Obj`
 }
 ```
 
+
+**logRequest**
+----
+Helper function to log all incoming requests to the web server. Handy for debugging purposes.
+
+Parameters: `req`, `res`, `next`
+
+Returns: None
+
+```javascript
+{
+	console.log(`${new Date()}  ${req.ip} : ${req.method} ${req.path}`);
+	next();
+}
+```
+
 **distanceSort**
 ----
 Helper function to compute straight-line distance in kilometers given longitudinal and latitudinal coordinates of Earth. Uses the hard-coded constant of Earth's radius in kilometers (6371 km).
@@ -523,4 +589,5 @@ Returns: `radians`
 	return deg * (Math.PI/180)
 }
 ```
+
 
