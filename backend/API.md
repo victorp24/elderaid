@@ -68,7 +68,7 @@ Modifies existing user object given ID and body.
 
 * **URL**
 
-  /api/users
+  /api/users/id/<id>
   
 * **Method**
 
@@ -76,11 +76,11 @@ Modifies existing user object given ID and body.
 
 * **URL Params**
 
-  None
+  `id`: Requester user ID for object to update
 
 * **Data Params**
   
-  `firstName`, `lastName`, `password`, `contactNumber`
+  `firstName`, `lastName`, `password`, `contactNumber`, `bio`, `gender`, `age`, `imageUrl`
 
 * **Response**
 
