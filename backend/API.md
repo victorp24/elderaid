@@ -1,4 +1,4 @@
-#### Backend API Documentation
+## Backend API Documentation
 
 This document outlines the backend server API endpoints (url parameters, data parameters, and return values), user schemas, and helper functions.
 
@@ -8,7 +8,7 @@ This document outlines the backend server API endpoints (url parameters, data pa
 - [Helper Functions](#Helper-Functions)
 
 
-#### API endpoints
+# API endpoints
 
 **Add User Signup** 
 ----
@@ -160,6 +160,47 @@ Returns a success or failure.
     ```json
     No user with the specified ID was found.
     ```
+
+**Update Location**
+----
+Updates the location given a specified ID.
+
+
+* **URL**
+
+  /api/updatelocation/<id>
+
+* **Method**
+
+  `PUT`
+
+* **URL Params**
+
+  **Required:**
+
+  `id=[userid]`: ID with invitations received
+
+* **Data Params**
+
+   `lat=[double]`: latitude
+   `long=[double]`: longitude
+
+* **Response**
+
+    **Content:**
+    
+    If successful:
+    **Code:** 200 <br />
+    ```json
+    Location Updated
+    ```
+    
+    If ID could not be found or invalid user:
+    **Code:** 404 <br />
+    ```json
+    No user with the specified ID was found.
+    ```
+
 
 
 **Get list of invites**
@@ -453,7 +494,7 @@ Returns user object given an unique email and password.
 
     
     
-#### User Schemas
+# User Schemas
 
 **userSchemaFields** 
 ----
@@ -492,7 +533,7 @@ User schema for sign-up fields. Used for creating the initial user object.
 }
 ```
 
-#### Helper Functions
+# Helper Functions
 
 **isSchemaValid**
 ----
