@@ -3,7 +3,7 @@
   <img width=238 height=250 src="frontend/elderaid/src/components/images/logo.jpg" />
 </p>
 
-> ElderAid is a web-based application for bringing together the elderly and the young in these unprecdented times of COVID-19.
+> ElderAid is a web-based application for bringing together the elderly and the young in these unprecedented times of COVID-19.
 
 Sometimes we are not always available to care for the elderly and those we love. What about those that are living far away and do not have any support? Walking outside to the supermarket to grab groceries is a health risk, especially for those that are immuno-compromised. There has been many cases of people catching COVID-19 just by going for a grocery run.
 
