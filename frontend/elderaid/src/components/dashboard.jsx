@@ -6,10 +6,13 @@ import qs from 'qs';
 
 
 function Dashboard() {
+
     //Sudo testing conditions
-    const sudo_role = "null"
-    const sudo_isVerified = (sudo_role == "ELDER") ? true: false
-    const sudo_match = false
+    const sudo_role = "YOUTH"
+    //Will always set youth as false, must rewrite
+    //const sudo_isVerified = (sudo_role == "ELDER") ? true: false
+    const sudo_isVerified = true
+    const sudo_match = true
 
     const user_id = localStorage.getItem("userID")
     var Url="http://ec2-18-217-84-140.us-east-2.compute.amazonaws.com:3000/api/user/id/${user_id}"
@@ -19,32 +22,27 @@ function Dashboard() {
     })
 
     if(sudo_role == "YOUTH"){
-        return(
-            <div>
-            <YouthPage />
-            <p>Youth </p>
-            </div>
-        ); 
+        if(sudo_isVerified == true && sudo_match == false) {
+            return(<div><YouthPage_unmatched /></div>);             
+        }
+        else if(sudo_isVerified == true && sudo_match == true) {
+            return(<div><YouthPage /></div>);                  
+        }
+        else{
+            return(<div><YouthPage_unverified /></div>);                  
+        }
     } else if (sudo_role == "ELDER") {
-        return(
-            <div>
-            <ElderPage />
-            <p>ELDER</p>
-            </div>
-        );        
+        if(sudo_match == true){
+            return(<div><ElderPage /></div>);             
+        } else{
+            return(<div><ElderPage_unmatched /></div>);                   
+        }
     } else {
-        return(
-            <div>
-            <PublicPage />
-            <p>Public </p>
-            </div>
-        );        
+        return(<div><PublicPage /></div>);        
     }
-
 } 
 
 export default Dashboard;
-
 
 //Not Signed in Page
 function PublicPage() {
