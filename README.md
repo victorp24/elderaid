@@ -32,7 +32,6 @@ ElderAid features:
 ### Technical Details
 
 * Frontend
-#**(React.js)**
 <p align="left">
   <img width=150 height=84 src="https://dwglogo.com/wp-content/uploads/2017/09/React_logo.png" />
 </p>
@@ -45,7 +44,6 @@ ElderAid features:
   a username/password combination. 
   
 * Backend + API
-#**(Express.js)**
 <p align="left">
   <img width=150 height=40 src="https://buttercms.com/static/images/tech_banners/ExpressJS.8587dd0647ca.png" />
 </p>
@@ -55,7 +53,6 @@ ElderAid features:
   * The API queried our MongoDB database, hosted on an AWS EC2 virtual machine instance in the cloud.
 
 * Database
-#**(MongoDB)**
 <p align="left">
   <img width=150 height=64 src="http://photos1.meetupstatic.com/photos/event/3/4/c/8/highres_99553512.jpeg" />
 </p>
