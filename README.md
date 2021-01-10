@@ -46,7 +46,7 @@ ElderAid features:
   
 * Backend + API
 #**(Express.js)**
-<p align="center">
+<p align="left">
   <img width=150 height=40 src="https://buttercms.com/static/images/tech_banners/ExpressJS.8587dd0647ca.png" />
 </p>
   * The APIs for ElderAid was implemented using the Express.js framework. 
@@ -56,7 +56,7 @@ ElderAid features:
 
 * Database
 #**(MongoDB)**
-<p align="center">
+<p align="left">
   <img width=150 height=64 src="http://photos1.meetupstatic.com/photos/event/3/4/c/8/highres_99553512.jpeg" />
 </p>
   * The database used was mongoDB, queried from the Express.js backend.
