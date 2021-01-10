@@ -34,7 +34,15 @@ ElderAid features:
 
 * **Frontend**
   * The frontend was implemented using the React.js framework.
-  * TODO: Add frontend stuff
+  * From this framework we created various components to display different states.
+  * When creating an account, the user selects whether they are elderly or youth, and from that, different dashboard states will be displayed after a successful login
+  * After verification for elders, there are two dashboard views:
+    * Pre-partnership, where the elder can view closest youths by location and send invites
+    * Post-partnership, where the elder and youth have connected
+  * After verification for youths, there are also two dashboard views:
+    * Pre-partnership, where the youth can see a list of invites from elders and accept one
+    * Post-partnership, where after the acceptance the youth and elder are connected
+  * On the profile customization page, the user (both elder and youth) can customize their personal information and add a profile picture. 
 
 <p align="left">
   <img width=150 height=40 src="https://buttercms.com/static/images/tech_banners/ExpressJS.8587dd0647ca.png" />
