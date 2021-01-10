@@ -38,9 +38,9 @@ Returns user object if a user exists and empty json otherwise
     If user exists:
     ```json
     {
-      "firstName": "san",
-      "lastName": "jose",
-      "email": "notme@god.com",
+      "firstName": "San",
+      "lastName": "Jose",
+      "email": "san@jose.com",
       "password": "password123",
       "contactNumber": "323-423-9222",
       "role": "ELDER",
@@ -50,7 +50,7 @@ Returns user object if a user exists and empty json otherwise
       "location": [27.2970523, -121.9574942],
       "age": "420",
       "gender": "Other",
-      "bio": "im god",
+      "bio": "What's something that's red and bad for your teeth? A brick.",
       "partnerId": "",
       "invitations": []
     }
@@ -96,12 +96,12 @@ Returns list of user objects sorted by distance. Calculated via straight-line di
     ```json
      {
         "_id": "5ffa4cf99a2bbc38e469df6a",
-        "firstName": "god",
-        "lastName": "god",
+        "firstName": "FirstName",
+        "lastName": "LastName",
         "imageUrl": "",
-        "age": "420",
+        "age": "3435",
         "gender": "Other",
-        "bio": "im god",
+        "bio": "What's grey and can't fly? A parking lot.",
         "distance": 123
     }
     ```
@@ -190,12 +190,12 @@ Returns a list of user objects that have sent invites to the user ID specified.
     ```json
     {
        "_id": "5ffa4cf99a2bbc38e469df6a",
-       "firstName": "god",
-       "lastName": "god",
-       "imageUrl": "",
-       "age": "420",
-       "gender": "Other",
-       "bio": "im god"
+       "firstName": "Justin",
+       "lastName": "Trudeau",
+       "imageUrl": "https://bit.ly/35remlL",
+       "age": "49",
+       "gender": "Male",
+       "bio": "He's just not ready."
     }
     ```
     
@@ -244,12 +244,12 @@ Returns a success or failure.
     ```json
     {
        "_id": "5ffa4cf99a2bbc38e469df6a",
-       "firstName": "god",
-       "lastName": "god",
-       "imageUrl": "",
-       "age": "420",
+       "firstName": "Jeff",
+       "lastName": "Bezos",
+       "imageUrl": "https://bit.ly/2XtLFzX",
+       "age": "56",
        "gender": "Other",
-       "bio": "im god"
+       "bio": "Former world's richest man, Jan 2021."
     }
     ```
     
@@ -298,7 +298,7 @@ Returns the user with the unique ID specified.
        "firstName": "God",
        "lastName": "",
        "imageUrl": "",
-       "age": "999",
+       "age": "9999",
        "gender": "Other",
        "bio": "Greetings. I am God."
     }
@@ -342,7 +342,7 @@ Returns if user with the unique ID specified is verified or not.
        "_id": "5ffa4cf99a2bbc38e469df6a",
        "firstName": "Jesus",
        "lastName": "O'Nazareth",
-       "imageUrl": "",
+       "imageUrl": "https://bit.ly/3bparJP",
        "age": "1988",
        "gender": "Male",
        "bio": "I can walk on water."
