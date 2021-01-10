@@ -141,8 +141,52 @@ app.route('/api/users')
 			res.status(400).send("Cannot add user: user schema mismatch.");
 		}
 	});
+	// // Update user bio, firstname, lastname, password, contact number. Email, age, gender cannot be updated.
+	// .put(function (req, res){
+	// 	var id = jsonBody._id;
+	// 	var arr_to_update = { "firstName": "", "lastName": "", "password": "", "contactNumber": ""};
 
-app.get('/api/usersbyproximity', function (req, res) {
+	// 	db.getUserById(id).then(function (user) {
+	// 		if (user != null){
+	// 			if (jsonBody.firstName != null && jsonBody.firstName != ""){
+	// 				arr_to_update.firstName = jsonBody.firstName;
+	// 			}
+	// 			else {
+	// 				arr_to_update.firstName = user.firstName;
+	// 			}
+	// 			if (jsonBody.lastName != null && jsonBody.lastName != ""){
+	// 				arr_to_update.lastName = jsonBody.lastName;
+	// 			}
+	// 			else {
+	// 				arr_to_update.lastName = user.lastName;
+	// 			}
+	// 			if (jsonBody.password != null && jsonBody.password != ""){
+	// 				arr_to_update.password = jsonBody.password;
+	// 			}
+	// 			else {
+	// 				arr_to_update.password = user.password;
+	// 			}
+	// 			if (jsonBody.contactNumber != null && jsonBody.contactNumber != ""){
+	// 				arr_to_update.contactNumber = jsonBody.contactNumber;
+	// 			}
+	// 			else {
+	// 				arr_to_update.contactNumber = user.contactNumber;
+	// 			}
+
+	// 			db.updateUserFields(user.id, arr_to_update).then(function (resolve){
+	// 				res.status(200).send("User with the specified ID was updated!");
+	// 			}, function (err){
+	// 				res.status(400).send(err.message);
+	// 			});
+	// 		}else {
+	// 			res.status(404).send("No user with the specified ID was found. Could not update user.");
+	// 		}
+	// 	})
+
+
+	// });
+
+app.post('/api/usersbyproximity', function (req, res) {
 	db.getUsers().then(function (allUsers) {
 		// Latitude and longitude coordinates of the query
 		var lat1 = req.query.lat;
