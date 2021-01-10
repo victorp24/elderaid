@@ -1,6 +1,7 @@
 import React from "react";
 import { Link, withRouter } from "react-router-dom";
 import Logo from "./images/logo.jpg"
+import "./styling/navigation.css";
 
 function Navigation(props) {
   return (
@@ -12,7 +13,6 @@ function Navigation(props) {
                 src={Logo}
                 width="30"
                 height="30"
-                className="d-inline-block align-top"
                 id="nav_logo"
             />{' '}
           <Link class="navbar-brand" to="/">
@@ -70,10 +70,10 @@ function Navigation(props) {
               </li>
               <li
                 class={`nav-item  ${
-                  props.location.pathname === "/contact" ? "active" : ""
+                  props.location.pathname === "/Contact" ? "active" : ""
                 }`}
               >
-                <Link class="nav-link" to="/contact">
+                <Link class="nav-link" to="/Contact">
                   Contact
                 </Link>
               </li>
