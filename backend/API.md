@@ -1,14 +1,12 @@
 #### Backend API Documentation
 
 This document outlines the backend server API endpoints, their url parameters, data parameters, and return values.
-### User Schemas
-userSchemaFields
-userSchemaSignUpFields
-### Helper Functions
-deleteSensitiveInfo
-isSchemaValid
-distanceSort
-deg2rad
+
+[API Endpoints](# API endpoints)
+[User Schemas](# User Schemas)
+[Helper Functions](# Helper Functions)
+
+
 ### API endpoints
 
 **Add User Signup** 
@@ -404,4 +402,124 @@ Returns user object given an unique email and password.
 
     
     
+### User Schemas
+
+**userSchemaFields** 
+----
+Standard user schema that contains all relevant fields of interest.
+```json
+{
+  "firstName", 
+	"lastName", 
+	"email", 
+	"password", 
+	"contactNumber",
+	"role",
+	"isVerified",
+	"flagged",
+	"imageUrl",
+	"location",
+	"age",
+	"gender",
+	"bio",
+	"partnerId",
+	"invitations",
+}
+```
+
+**userSchemaSignUpFields**
+----
+User schema for sign-up fields. Used for creating the initial user object.
+```json
+{
+	"firstName", 
+	"lastName", 
+	"email", 
+	"password", 
+	"contactNumber",
+	"role",
+}
+```
+
+### Helper Functions
+
+**isSchemaValid**
+----
+Validates schema. Pre-check before allowing user object to pass into database.
+
+Parameters: `user_schema`, `user_obj`
+
+Returns: `bool`
+
+```json
+{
+	for(var i = 0; i < fields.length; i++) {
+		if(!obj.hasOwnProperty(fields[i])) {
+			return false;
+		}
+	}
+	return true;
+}
+```
+
+**deleteSensitiveInfo**
+----
+Helper function to delete sensitive info before passing to front-end client side.
+
+Parameters: `User_Obj`
+
+Returns: `Scrubbed_User_Obj`
+
+```json
+{
+
+	delete user.password;
+	delete user.email;
+	delete user.contactNumber;
+	delete user.role;
+	delete user.isVerified;
+	delete user.flagged;
+	delete user.location;
+	delete user.partnerId;
+	delete user.invitations;
+
+	return user;
+}
+```
+
+**distanceSort**
+----
+Helper function to compute straight-line distance in kilometers given longitudinal and latitudinal coordinates of Earth. Uses the hard-coded constant of Earth's radius in kilometers (6371 km).
+
+Parameters: `start_latitude`, `start_longitude`, `end_latitude`, `end_longitude`.
+
+Returns: `distance_km`
+
+```json
+{
+	var R = 6371; // Radius of the earth in km
+	var dLat = deg2rad(lat2-lat1);  // deg2rad below
+	var dLon = deg2rad(lon2-lon1); 
+	var a = 	Math.sin(dLat/2) * Math.sin(dLat/2) +
+	  			Math.cos(deg2rad(lat1)) * Math.cos(deg2rad(lat2)) * 
+	  			Math.sin(dLon/2) * Math.sin(dLon/2); 
+	var c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a)); 
+	var d = R * c; // Distance in km
+	return d;
+}
+```
+
+**deg2rad**
+----
+Helper function for `distanceSort`. Converts degrees to radians.
+
+Parameters: `degrees`
+
+Returns: `radians`
+
+```json
+{
+	return deg * (Math.PI/180)
+}
+```
 
