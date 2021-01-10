@@ -4,10 +4,12 @@ import axios from 'axios';
 import qs from 'qs';
 import { useHistory } from "react-router-dom";
 import { Form, Button, Container, Row, Col } from "react-bootstrap";
+import useGeoLocation from './useGeoLocation'
 
 export default function Login() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const location = useGeoLocation();
 
   function validateForm() {
     return email.length > 0 && password.length > 0;
@@ -60,6 +62,9 @@ export default function Login() {
             onClick={routeChange}
             >
             Login
+            {
+              location.loaded ? JSON.stringify(location) : "Location data not available yet."
+            }
         </Button>
 
       </Form>
