@@ -19,10 +19,14 @@
 
 #pic2 {
     width: 40%;
+    margin-top: 70px;
 }
 
 #pic3 {
     width: 40%;
+    height: 210px;
+    width: 90px;
+    margin-top: 20px;
 }
 
 .sections {

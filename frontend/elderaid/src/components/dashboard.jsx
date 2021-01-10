@@ -1,6 +1,7 @@
 import React, { useContext, createContext, useState, useEffect } from "react";
 import { BrowserRouter as Router, Switch, Route, Link, Redirect, useHistory, useLocation } from "react-router-dom";
 import { Button, Card, ListGroup, ListGroupItem, Container, Row, Col } from 'react-bootstrap';
+import UserCard from './UserCard'
 import axios from 'axios';
 import qs from 'qs';
 
@@ -295,6 +296,7 @@ function ElderPage_unmatched() {
     
     const [lat, setLat] = useState(0);
     const [long, setLong] = useState(0);
+    const [usersByProximity, setUsersByProximity] = useState([]);
     const [firstName, setFirstName] = useState("");
     const [lastName, setLastName] = useState("");
     const [age, setAge] = useState(0);
@@ -305,31 +307,6 @@ function ElderPage_unmatched() {
     const [email, setEmail] = useState("");
     
     useEffect(() => {
-        
-        function createCard(firstName, lastName, bio, age, gender, phone, email) {
-            return(
-                <div>
-                <Card boarder="warnin" className="mt-3" style={{ width: '18rem' }}>
-                    <Card.Img variant="top" src="https://images-na.ssl-images-amazon.com/images/I/411sV6Mle4L._SY300_.jpg" />
-                        <Card.Body>
-                        <Card.Title>{firstName} {lastName}</Card.Title>
-                            <Card.Text>
-                                {bio}
-                            </Card.Text>
-                        </Card.Body>
-                            <ListGroup className="list-group-flush">
-                                <ListGroupItem>Age: {age} Gender: {gender}</ListGroupItem>
-                                <ListGroupItem>Phone Number: {phone} </ListGroupItem>
-                                <ListGroupItem>Email: {email} </ListGroupItem>
-                            </ListGroup>
-                        <Card.Body>
-                        {/*<Card.Link href="#">Card Link</Card.Link>
-                        <Card.Link href="#">Another Link</Card.Link>*/}
-                    </Card.Body>
-                </Card>
-                </div>
-            );}
-        
         const user_id = localStorage.getItem("userId")
         var Url = "http://ec2-18-217-84-140.us-east-2.compute.amazonaws.com:3000/api/users/id/" + user_id;
         axios.get(Url)
@@ -353,43 +330,26 @@ function ElderPage_unmatched() {
             };
             axios(options)
             .then(response => {
-                console.log(response)
-                console.log("hello")
-                setFirstName(response.data.firstName);
-                console.log(firstName) //undefined
-                setLastName(response.data.lastName);
-                setAge(response.data.age);
-                setBio(response.data.bio);
-                setGender(response.data.gender);
-                setContactNumber(response.data.contactNumber)
-                setEmail(response.data.email)
+                console.log(response.data);
+                setUsersByProximity(response.data);
             })
             .catch(error => console.log(error.response.data))
         })
         .catch(function(err) {
             alert(err.message);
           }); 
-        }, [lat, long])
-   
-        return (
-        <div>
-        <Container>
-            <Row>
-                <Col>
-                    <div>
-                        <createCard firstName={firstName} lastName={lastName} bio={bio} age={age} gender={gender} phone={contactNumber} email={email}/>
-                    </div>
-                </Col>
-                <Col>
-                    <div>
-                        <h1>Welcome to the Elder Dashboard</h1>
-                        <h1>You have signed in as Elder</h1>
-                        <h1>You are Unmatched</h1>
-                    </div>
-                </Col>
-            </Row>
-        </Container>
-        </div>        
-    );
+        }, [lat, long]);
 
-}
+        var array = [];
+        for(let i = 0; i < usersByProximity.length; i++) {
+            array.push(
+              <UserCard firstName={usersByProximity[i].firstName} lastName={usersByProximity[i].lastName} bio={usersByProximity[i].bio} age={usersByProximity[i].age} gender={usersByProximity[i].gender} distance={usersByProximity[i].distance} imageUrl={usersByProximity[i].imageUrl} />
+            );
+        }; 
+
+        return (
+            <div class="flexbox-container">
+                {array}  
+            </div>
+        )   
+    }
