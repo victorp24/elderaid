@@ -15,7 +15,10 @@ export default function Login() {
 
   function handleSubmit(event) {
     event.preventDefault();
+  }
 
+  const history = useHistory();
+  const routeChange = () =>{ 
     var userInformation = {email: email, password: password};
     const options = {
         method: 'POST',
@@ -25,14 +28,11 @@ export default function Login() {
       };
       axios(options).then(function(user) {
         localStorage.setItem("userId", user.data._id);
+        let path = "/dashboard"; 
+        history.push(path);  
       }).catch(function(err) {
         alert(err.response.data);
       });  
-  }
-  const history = useHistory();
-  const routeChange = () =>{ 
-        let path = "/dashboard"; 
-        history.push(path);  
   }
 
   return (
@@ -101,4 +101,5 @@ export default function Login() {
 //       </div>
 //   );
 // }
-// export default Login;
+//export default Login;
+
