@@ -211,30 +211,36 @@ Database.prototype.updateUserBio = function(id, biography) {
 	)
 }
 
-// Database.prototype.updateUserFields = function(id, fields) {
-// 	return this.connected.then(db => 
-// 		new Promise((resolve, reject) => {
-// 			// grab a specific user from the database that matches the given id
-// 			// note: MongoDB uses '_id' as the identifier for documents in a collection
-// 			// also, MongoDB uses an object of type 'ObjectID' for the identifier
-// 			try {
-// 				var object_id = new ObjectID(id);
-// 			} catch(e) {
-// 				// error most likely occured since id passed is not in the proper format for ObjectID creation
-// 				var object_id = id.toString();
-// 			}
-// 			// Finds object with specified ID, and updates location array
-// 			resolve(db.collection('users').updateOne(	{_id: object_id},
-// 														{ $set: { 	firstName: fields.firstName,
-// 																	lastName: fields.lastName,
-// 																	password: fields.password,
-// 																	contactNumber: fields.contactNumber
-// 																} 
-// 														}
-// 													));
-// 		})	
-// 	)
-// }
+Database.prototype.updateUserFields = function(id, fields) {
+	return this.connected.then(db => 
+		new Promise((resolve, reject) => {
+			// grab a specific user from the database that matches the given id
+			// note: MongoDB uses '_id' as the identifier for documents in a collection
+			// also, MongoDB uses an object of type 'ObjectID' for the identifier
+			try {
+				var object_id = new ObjectID(id);
+			} catch(e) {
+				// error most likely occured since id passed is not in the proper format for ObjectID creation
+				var object_id = id.toString();
+			}
+			// Finds object with specified ID, and updates location array
+			console.log(fields);
+			console.log(object_id);
+			resolve(db.collection('users').updateOne(	{_id: object_id},
+														{ $set: { 	firstName: fields.firstName,
+																	lastName: fields.lastName,
+																	password: fields.password,
+																	contactNumber: fields.contactNumber,
+																	age: fields.age,
+																	gender: fields.gender,
+																	bio: fields.bio,
+																	imageUrl: fields.imageUrl
+																} 
+														}
+													));
+		})	
+	)
+}
 
 
 module.exports = Database;
