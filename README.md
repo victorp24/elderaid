@@ -9,14 +9,11 @@ Sometimes we are not always available to care for the elderly and those we love.
 
 This is where our app could come in. What if those elderly and immuno-compromised could have someone to help with groceries, or food? Users could sign-up and login to be able to connect with non-immuno-compromised youth volunteers in their community. The youth would help with a grocery run and mitigate any possible exposure risk that the elderly might face otherwise.
  
-  Backend:
-  - [Victor Parangue](https://www.youtube.com/watch?v=dQw4w9WgXcQ)
-  - [Martin Chua](https://www.youtube.com/watch?v=dQw4w9WgXcQ)
-  
-  
-  Frontend:
-  - [Parmvir Shergill](https://www.youtube.com/watch?v=dQw4w9WgXcQ)
-  - [Michael Wu](https://www.youtube.com/watch?v=dQw4w9WgXcQ)
+  Team:
+  - [Victor Parangue](https://www.youtube.com/watch?v=dQw4w9WgXcQ) (Backend)
+  - [Martin Chua](https://www.youtube.com/watch?v=dQw4w9WgXcQ) (Backend)
+  - [Parmvir Shergill](https://www.youtube.com/watch?v=dQw4w9WgXcQ) (Frontend)
+  - [Michael Wu](https://www.youtube.com/watch?v=dQw4w9WgXcQ) (Frontend)
 
 
 ### Description
