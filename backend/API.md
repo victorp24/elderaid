@@ -21,7 +21,7 @@ Returns user object if a user exists and empty json otherwise
   
 * **Method**
 
-  `GET`
+  `GET`,
   `POST`
 
 * **URL Params**
@@ -30,7 +30,7 @@ Returns user object if a user exists and empty json otherwise
 
 * **Data Params**
   
-  None (`Get`)
+  None (`Get`),
   userSchemaSignUpFields (`POST`)
 
 * **Response**
@@ -80,7 +80,7 @@ Returns list of user objects sorted by distance. Calculated via straight-line di
 
   **Required:**
 
-  `lat=[-90.0:90.0]`
+  `lat=[-90.0:90.0]`,
   `lon=[-180:180]`
 
 * **Data Params**
@@ -139,10 +139,6 @@ Returns a success or failure.
 
 * **Response**
 
-    **Content:**
-    
-    User object list sorted from lowest to highest distance
-    
     If invite is already logged with the requestee:
     **Code:** 200 <br />
     ```json
@@ -166,3 +162,52 @@ Returns a success or failure.
     No user with the specified ID was found.
     ```
 
+
+**Get list of invites**
+----
+Returns a list of user objects that have sent invites to the user ID specified.
+
+* **URL**
+
+  /api/users/invites/<id>
+
+* **Method**
+
+  `GET`
+
+* **URL Params**
+
+  **Required:**
+
+  `id=[userid]`: ID with invitations received
+
+* **Data Params**
+
+* **Response**
+
+    **Content:**
+    
+    User object list of those who sent an invite to the user ID requested. Eg.
+    ```json
+    {
+       "_id": "5ffa4cf99a2bbc38e469df6a",
+       "firstName": "god",
+       "lastName": "god",
+       "imageUrl": "",
+       "age": "420",
+       "gender": "Other",
+       "bio": "im god"
+    }
+    ```
+    
+    If requested invite list is empty:
+    **Code:** 200 <br />
+    ```json
+    Invitation list is empty.
+    ```
+    
+    If ID could not be found or invalid user:
+    **Code:** 404 <br />
+    ```json
+    Invalid data in invitations array! Could not find user with the specified ID!
+    ```
